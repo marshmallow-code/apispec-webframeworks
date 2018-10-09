@@ -5,7 +5,7 @@ from flask import Flask
 from flask.views import MethodView
 
 from apispec import APISpec
-from apispec_ext_webframeworks.flask import FlaskPlugin
+from apispec_webframeworks.flask import FlaskPlugin
 
 
 @pytest.fixture(params=('2.0', '3.0.0'))

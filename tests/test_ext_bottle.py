@@ -4,7 +4,7 @@ import pytest
 from bottle import route
 
 from apispec import APISpec
-from apispec_ext_webframeworks.bottle import BottlePlugin
+from apispec_webframeworks.bottle import BottlePlugin
 
 
 @pytest.fixture(params=('2.0', '3.0.0'))

@@ -5,7 +5,7 @@ from tornado.web import RequestHandler
 import tornado.gen
 
 from apispec import APISpec
-from apispec_ext_webframeworks.tornado import TornadoPlugin
+from apispec_webframeworks.tornado import TornadoPlugin
 
 
 @pytest.fixture(params=('2.0', '3.0.0'))

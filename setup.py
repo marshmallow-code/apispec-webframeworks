@@ -9,13 +9,13 @@ def read(fname):
 
 
 setup(
-    name='apispec-ext-webframeworks',
+    name='apispec-webframeworks',
     version='0.1',
     description='Web frameworks plugins for ApiSpec.',
     long_description=read('README.md'),
     author='Steven Loria',
     author_email='sloria1@gmail.com',
-    url='https://github.com/marshmallow-code/apispec-ext.webframeworks',
+    url='https://github.com/marshmallow-code/apispec-webframeworks',
     packages=find_packages(exclude=('test*', )),
     include_package_data=True,
     extras_require={},
@@ -36,6 +36,6 @@ setup(
     test_suite='tests',
     project_urls={
         'Funding': 'https://opencollective.com/marshmallow',
-        'Issues': 'https://github.com/marshmallow-code/apispec-ext-webframeworks/issues'
+        'Issues': 'https://github.com/marshmallow-code/apispec-webframeworks/issues'
     },
 )
