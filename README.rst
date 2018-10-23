@@ -2,7 +2,7 @@
 apispec-webframeworks
 *********************
 
-.. image:: https://badge.fury.io/py/apispec-webframeoworks.svg
+.. image:: https://badge.fury.io/py/apispec-webframeworks.svg
     :target: http://badge.fury.io/py/apispec-webframeworks
     :alt: Latest version
 
