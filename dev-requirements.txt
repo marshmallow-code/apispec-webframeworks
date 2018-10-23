@@ -15,7 +15,7 @@ tox==3.4.0
 mock==2.0.0
 
 # Pre-commit hooks
-pre-commit==1.11.1
+pre-commit==1.11.2
 
 # Install this package in development mode
 -e '.'
