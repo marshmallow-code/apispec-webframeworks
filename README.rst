@@ -2,6 +2,16 @@
 apispec-webframeworks
 *********************
 
+.. image:: https://badge.fury.io/py/apispec-webframeoworks.svg
+    :target: http://badge.fury.io/py/apispec-webframeworks
+    :alt: Latest version
+
+.. image:: https://travis-ci.org/marshmallow-code/apispec-webframeworks.svg?branch=master
+    :target: https://travis-ci.org/marshmallow-code/apispec-webframeworks
+
+.. image:: https://img.shields.io/badge/marshmallow-3-blue.svg
+    :target: https://marshmallow.readthedocs.io/en/latest/upgrading.html
+    :alt: marshmallow 3 compatible
 
 `apispec <https://github.com/marshmallow-code/apispec>`_ plugins for
 integrating with various web frameworks.
@@ -66,6 +76,11 @@ Example usage:
     # we need to be in a Flask request context
     with app.test_request_context():
        spec.add_path(view=gist_detail)
+
+Documentation
+=============
+
+For documentation for a specific plugin, see its module docstring.
 
 License
 =======
