@@ -10,18 +10,35 @@ def read(fname):
 
 setup(
     name='apispec-webframeworks',
-    version='0.1',
-    description='Web frameworks plugins for ApiSpec.',
-    long_description=read('README.md'),
+    version='0.0.1',
+    description='Web framework plugins for apispec.',
+    long_description=read('README.rst'),
     author='Steven Loria',
     author_email='sloria1@gmail.com',
     url='https://github.com/marshmallow-code/apispec-webframeworks',
     packages=find_packages(exclude=('test*', )),
     include_package_data=True,
+    install_requires=[
+        'apispec[yaml]>=1.0.0b1',
+    ],
     extras_require={},
     license='MIT',
     zip_safe=False,
-    keywords='apispec swagger openapi specification documentation spec rest api web frameworks',
+    keywords=(
+        'apispec',
+        'swagger',
+        'openapi',
+        'specification',
+        'documentation',
+        'spec',
+        'rest',
+        'api',
+        'web',
+        'flask',
+        'tornado',
+        'bottle',
+        'frameworks',
+    ),
     classifiers=[
         'Development Status :: 4 - Beta',
         'Intended Audience :: Developers',
@@ -36,6 +53,6 @@ setup(
     test_suite='tests',
     project_urls={
         'Funding': 'https://opencollective.com/marshmallow',
-        'Issues': 'https://github.com/marshmallow-code/apispec-webframeworks/issues'
+        'Issues': 'https://github.com/marshmallow-code/apispec-webframeworks/issues',
     },
 )
