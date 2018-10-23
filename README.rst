@@ -26,7 +26,29 @@ Included plugins:
 * ``apispec_webframeworks.flask``
 * ``apispec_webframeworks.tornado``
 
-Example usage:
+Migration from ``apispec<1.0.0``
+================================
+
+To migrate from older versions of apispec, install this package
+with
+
+.. code-block:: console
+
+    pip install apispec-webframeworks
+
+
+Change your imports, like so:
+
+.. code-block:: python
+
+    # apispec<1.0.0
+    from apispec.ext.flask import FlaskPlugin
+
+    # apispec>=1.0.0
+    from apispec_webframeworks.flask import FlaskPlugin
+
+Example Usage
+=============
 
 .. code-block:: python
 
