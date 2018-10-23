@@ -21,7 +21,7 @@ def test(ctx, watch=False, last_failing=False):
         args.append('-f')
     if last_failing:
         args.append('--lf')
-    args.append('tests')
+    args.append('apispec_webframeworks/tests')
     retcode = pytest.main(args)
     sys.exit(retcode)
 
