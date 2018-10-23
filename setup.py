@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from setuptools import setup, find_packages
 
+VERSION = '0.0.1'
+
 
 def read(fname):
     with open(fname) as fp:
@@ -10,7 +12,7 @@ def read(fname):
 
 setup(
     name='apispec-webframeworks',
-    version='0.0.1',
+    version=VERSION,
     description='Web framework plugins for apispec.',
     long_description=read('README.rst'),
     author='Steven Loria',
