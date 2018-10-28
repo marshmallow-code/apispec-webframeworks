@@ -104,6 +104,41 @@ Documentation
 
 For documentation for a specific plugin, see its module docstring.
 
+
+Development
+===========
+
+* Clone and cd into this repo
+* Create and activate a virtual environment
+* Install this package (in editable mode) and the development
+  dependencies
+
+::
+
+    $ pip install '.[dev]'
+
+* Install pre-commit hooks
+
+::
+
+    $ pre-commit install
+
+
+Running tests
+-------------
+
+To run all tests: ::
+
+    $ pytest
+
+To run syntax checks: ::
+
+    $ tox -e lint
+
+(Optional) To run tests on Python 2.7, 3.5, 3.6, and 3.7 virtual environments (must have each interpreter installed): ::
+
+    $ tox
+
 License
 =======
 

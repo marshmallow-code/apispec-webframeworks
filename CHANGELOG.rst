@@ -1,6 +1,13 @@
 Changelog
 ---------
 
+0.1.0 (unreleased)
+++++++++++++++++++
+
+* Rework dev environment for consistency with apispec and marshmallow.
+  This also makes it easier for apispec to run tests against this
+  project's test suite
+
 0.0.2 (2018-10-23)
 ++++++++++++++++++
 
