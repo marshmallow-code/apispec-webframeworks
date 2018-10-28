@@ -4,6 +4,7 @@ Changelog
 0.1.0 (unreleased)
 ++++++++++++++++++
 
+* Test against Python 3.7.
 * Rework dev environment for consistency with apispec and marshmallow.
   This also makes it easier for apispec to run tests against this
   project's test suite
