@@ -2,6 +2,24 @@
 from setuptools import setup, find_packages
 
 VERSION = '0.0.2'
+EXTRAS_REQUIRE = {
+    'tests': [
+        'pytest',
+        'mock',
+        'Flask==1.0.2',
+        'tornado==5.1.1',
+        'bottle==0.12.13',
+    ],
+    'lint': [
+        'flake8==3.6.0',
+        'pre-commit==1.12.0',
+    ],
+}
+EXTRAS_REQUIRE['dev'] = (
+    EXTRAS_REQUIRE['tests'] +
+    EXTRAS_REQUIRE['lint'] +
+    ['tox']
+)
 
 
 def read(fname):
@@ -23,7 +41,7 @@ setup(
     install_requires=[
         'apispec[yaml]>=1.0.0b1',
     ],
-    extras_require={},
+    extras_require=EXTRAS_REQUIRE,
     license='MIT',
     zip_safe=False,
     keywords=(
