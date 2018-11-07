@@ -1,6 +1,11 @@
 Changelog
 ---------
 
+0.2.0 (unreleased)
+++++++++++++++++++
+
+* Fix compatibility with apispec 1.0.0b5. Older versions are not supported.
+
 0.1.0 (2018-10-28)
 ++++++++++++++++++
 

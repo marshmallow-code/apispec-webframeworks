@@ -39,7 +39,7 @@ setup(
     packages=find_packages(exclude=('test*', )),
     include_package_data=True,
     install_requires=[
-        'apispec[yaml]>=1.0.0b1',
+        'apispec[yaml]>=1.0.0b5',
     ],
     extras_require=EXTRAS_REQUIRE,
     license='MIT',

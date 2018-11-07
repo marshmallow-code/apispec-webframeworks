@@ -94,10 +94,10 @@ Example Usage
        """
        return 'details about gist {}'.format(gist_id)
 
-    # Since add_path inspects the view and its route,
+    # Since `path` inspects the view and its route,
     # we need to be in a Flask request context
     with app.test_request_context():
-       spec.add_path(view=gist_detail)
+       spec.path(view=gist_detail)
 
 Documentation
 =============

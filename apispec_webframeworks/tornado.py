@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """Tornado plugin. Includes a path helper that allows you to pass an urlspec (path-handler pair)
-object to `add_path`.
+object to `path`.
 ::
 
     from pprint import pprint
@@ -21,7 +21,7 @@ object to `add_path`.
             self.write("hello")
 
     urlspec = (r'/hello', HelloHandler)
-    spec.add_path(urlspec=urlspec)
+    spec.path(urlspec=urlspec)
     pprint(spec.to_dict()['paths'])
     # {'/hello': {'get': {'description': 'Get a greeting',
     #                     'responses': {200: {'description': 'A greeting to the '
