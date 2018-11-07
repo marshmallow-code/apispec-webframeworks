@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """Flask plugin. Includes a path helper that allows you to pass a view
-function to `add_path`. Inspects URL rules and view docstrings.
+function to `path`. Inspects URL rules and view docstrings.
 
 Passing a view function::
 
@@ -22,7 +22,7 @@ Passing a view function::
         return 'detail for gist {}'.format(gist_id)
 
     with app.test_request_context():
-        spec.add_path(view=gist_detail)
+        spec.path(view=gist_detail)
     print(spec.to_dict()['paths'])
     # {'/gists/{gist_id}': {'get': {'responses': {200: {'schema': {'$ref': '#/definitions/Gist'}}}},
     #                  'x-extension': 'metadata'}}
@@ -55,7 +55,7 @@ Passing a method view function::
     method_view = GistApi.as_view('gists')
     app.add_url_rule("/gists", view_func=method_view)
     with app.test_request_context():
-        spec.add_path(view=method_view)
+        spec.path(view=method_view)
     print(spec.to_dict()['paths'])
     # {'/gists': {'get': {'responses': {200: {'schema': {'$ref': '#/definitions/Gist'}}}},
     #             'post': {},

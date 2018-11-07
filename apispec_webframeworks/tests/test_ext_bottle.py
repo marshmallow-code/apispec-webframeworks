@@ -25,7 +25,7 @@ class TestPathHelpers:
         @route('/hello')
         def hello():
             return 'hi'
-        spec.add_path(
+        spec.path(
             view=hello,
             operations={'get': {'parameters': [], 'responses': {'200': {}}}},
         )
@@ -41,7 +41,7 @@ class TestPathHelpers:
         def hello():
             return 'hi'
 
-        spec.add_path(
+        spec.path(
             view=hello, operations=dict(
                 get={'description': 'get a greeting', 'responses': {'200': {}}},
                 post={'description': 'post a greeting', 'responses': {'200': {}}},
@@ -84,7 +84,7 @@ class TestPathHelpers:
             """
             return 'hi'
 
-        spec.add_path(view=hello)
+        spec.path(view=hello)
         paths = get_paths(spec)
         get_op = paths['/hello']['get']
         post_op = paths['/hello']['post']
@@ -100,7 +100,7 @@ class TestPathHelpers:
         def get_pet(pet_id):
             return 'representation of pet {pet_id}'.format(pet_id=pet_id)
 
-        spec.add_path(view=get_pet)
+        spec.path(view=get_pet)
         assert '/pet/{pet_id}' in get_paths(spec)
 
     def test_path_with_params(self, spec):
@@ -109,5 +109,5 @@ class TestPathHelpers:
         def set_pet():
             return 'new pet!'
 
-        spec.add_path(view=set_pet)
+        spec.path(view=set_pet)
         assert '/pet/{pet_id}/{shop_id}' in get_paths(spec)

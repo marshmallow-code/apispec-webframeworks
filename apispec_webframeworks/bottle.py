@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """Bottle plugin. Includes a path helper that allows you to pass a view function
-to `add_path`.
+to `path`.
 ::
 
     from bottle import route, default_app
@@ -17,7 +17,7 @@ to `add_path`.
         '''
         return 'detail for gist {}'.format(gist_id)
 
-    spec.add_path(view=gist_detail)
+    spec.path(view=gist_detail)
     print(spec.to_dict()['paths'])
     # {'/gists/{gist_id}': {'get': {'responses': {200: {'schema': {'$ref': '#/definitions/Gist'}}}}}}
 """

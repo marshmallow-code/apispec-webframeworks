@@ -32,7 +32,7 @@ class TestPathHelpers:
             {'get': {'parameters': [], 'responses': {'200': {}}}}
         )
 
-        spec.add_path(urlspec=urlspec, operations=operations)
+        spec.path(urlspec=urlspec, operations=operations)
         paths = get_paths(spec)
         assert '/hello' in paths
         assert 'get' in paths['/hello']
@@ -59,7 +59,7 @@ class TestPathHelpers:
                 'responses': {'200': {}},
             },
         }
-        spec.add_path(urlspec=urlspec, operations=operations)
+        spec.path(urlspec=urlspec, operations=operations)
         paths = get_paths(spec)
         get_op = paths['/hello']['get']
         post_op = paths['/hello']['post']
@@ -96,7 +96,7 @@ class TestPathHelpers:
                 self.write('hello')
 
         urlspec = (r'/hello', HelloHandler)
-        spec.add_path(urlspec=urlspec)
+        spec.path(urlspec=urlspec)
         paths = get_paths(spec)
         get_op = paths['/hello']['get']
         post_op = paths['/hello']['post']
@@ -116,7 +116,7 @@ class TestPathHelpers:
             {'get': {'parameters': [], 'responses': {'200': {}}}}
         )
 
-        spec.add_path(urlspec=urlspec, operations=operations)
+        spec.path(urlspec=urlspec, operations=operations)
         assert '/hello/world' in get_paths(spec)
 
     class HelloWorldHandler(RequestHandler):
@@ -141,7 +141,7 @@ class TestPathHelpers:
             {'get': {'parameters': [], 'responses': {'200': {}}}}
         )
 
-        spec.add_path(urlspec=urlspec, operations=operations)
+        spec.path(urlspec=urlspec, operations=operations)
         path = '/hello/{param1}/world/{param2}'
         paths = get_paths(spec)
         assert path in paths
