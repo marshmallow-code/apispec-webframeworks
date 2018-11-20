@@ -66,11 +66,6 @@ Passing a method view function::
 from __future__ import absolute_import
 import re
 
-try:
-    from urllib.parse import urljoin
-except ImportError:
-    from urlparse import urljoin
-
 from flask import current_app
 from flask.views import MethodView
 
@@ -118,6 +113,4 @@ class FlaskPlugin(BasePlugin):
                     method_name = method.lower()
                     method = getattr(view.view_class, method_name)
                     operations[method_name] = yaml_utils.load_yaml_from_docstring(method.__doc__)
-        path = self.flaskpath2openapi(rule.rule)
-        app_root = current_app.config['APPLICATION_ROOT'] or '/'
-        return urljoin(app_root.rstrip('/') + '/', path.lstrip('/'))
+        return self.flaskpath2openapi(rule.rule)
