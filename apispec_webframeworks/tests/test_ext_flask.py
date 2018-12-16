@@ -174,39 +174,3 @@ class TestPathHelpers:
 
         spec.path(view=get_pet)
         assert '/pet/{pet_id}' in get_paths(spec)
-
-    def test_path_includes_app_root(self, app, spec):
-
-        spec.options['basePath'] = '/v1'
-        app.config['APPLICATION_ROOT'] = '/v1/app/root'
-
-        @app.route('/partial/path/pet')
-        def get_pet():
-            return 'pet'
-
-        spec.path(view=get_pet)
-        assert '/app/root/partial/path/pet' in get_paths(spec)
-
-    def test_path_with_args_includes_app_root(self, app, spec):
-
-        spec.options['basePath'] = '/v1'
-        app.config['APPLICATION_ROOT'] = '/v1/app/root'
-
-        @app.route('/partial/path/pet/{pet_id}')
-        def get_pet(pet_id):
-            return 'representation of pet {pet_id}'.format(pet_id=pet_id)
-
-        spec.path(view=get_pet)
-        assert '/app/root/partial/path/pet/{pet_id}' in get_paths(spec)
-
-    def test_path_includes_app_root_with_right_slash(self, app, spec):
-
-        spec.options['basePath'] = '/v1'
-        app.config['APPLICATION_ROOT'] = '/v1/app/root/'
-
-        @app.route('/partial/path/pet')
-        def get_pet():
-            return 'pet'
-
-        spec.path(view=get_pet)
-        assert '/app/root/partial/path/pet' in get_paths(spec)
