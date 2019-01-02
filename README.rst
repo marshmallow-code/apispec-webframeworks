@@ -2,16 +2,17 @@
 apispec-webframeworks
 *********************
 
-.. image:: https://badge.fury.io/py/apispec-webframeworks.svg
-    :target: http://badge.fury.io/py/apispec-webframeworks
-    :alt: Latest version
+.. image:: https://badgen.net/pypi/v/apispec-webframeworks
+    :target: https://badge.fury.io/py/apispec-webframeworks
+    :alt: PyPI version
 
-.. image:: https://travis-ci.org/marshmallow-code/apispec-webframeworks.svg?branch=master
+.. image:: https://badgen.net/travis/marshmallow-code/apispec-webframeworks/master
     :target: https://travis-ci.org/marshmallow-code/apispec-webframeworks
+    :alt: TravisCI build status
 
-.. image:: https://img.shields.io/badge/marshmallow-3-blue.svg
+.. image:: https://badgen.net/badge/marshmallow/2,3?list=1
     :target: https://marshmallow.readthedocs.io/en/latest/upgrading.html
-    :alt: marshmallow 3 compatible
+    :alt: marshmallow 2/3 compatible
 
 `apispec <https://github.com/marshmallow-code/apispec>`_ plugins for
 integrating with various web frameworks.
