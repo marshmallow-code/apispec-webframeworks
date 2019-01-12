@@ -5,7 +5,7 @@ from flask import Flask
 from flask.views import MethodView
 
 from apispec import APISpec
-from apispec_webframeworks.flask import FlaskPlugin
+from apispec_webframeworks.flask import FlaskPlugin, DocumentedBlueprint
 
 from .utils import get_paths
 
@@ -16,7 +16,7 @@ def spec(request):
         title='Swagger Petstore',
         version='1.0.0',
         openapi_version=request.param,
-        plugins=(FlaskPlugin(), ),
+        plugins=(FlaskPlugin(),),
     )
 
 
@@ -52,6 +52,7 @@ class TestPathHelpers:
             ---
             x-extension: global metadata
             """
+
             def get(self):
                 """A greeting endpoint.
                 ---
@@ -78,7 +79,6 @@ class TestPathHelpers:
         assert paths['/hi']['x-extension'] == 'global metadata'
 
     def test_path_with_multiple_methods(self, app, spec):
-
         @app.route('/hello', methods=['GET', 'POST'])
         def hello():
             return 'hi'
@@ -101,6 +101,7 @@ class TestPathHelpers:
             ---
             x-extension: global metadata
             """
+
             def get(self):
                 """A greeting endpoint.
                 ---
@@ -126,7 +127,6 @@ class TestPathHelpers:
         assert 'delete' not in paths['/hi']
 
     def test_integration_with_docstring_introspection(self, app, spec):
-
         @app.route('/hello')
         def hello():
             """A greeting endpoint.
@@ -167,10 +167,121 @@ class TestPathHelpers:
         assert extension == 'value'
 
     def test_path_is_translated_to_swagger_template(self, app, spec):
-
         @app.route('/pet/<pet_id>')
         def get_pet(pet_id):
             return 'representation of pet {pet_id}'.format(pet_id=pet_id)
 
         spec.path(view=get_pet)
         assert '/pet/{pet_id}' in get_paths(spec)
+
+
+class TestDocumentedBlueprint:
+
+    def test_document_document_true(self, app, spec):
+        documented_blueprint = DocumentedBlueprint('test', __name__, spec)
+
+        @documented_blueprint.route('/test', document=True)
+        def test():
+            return 'Hello'
+
+        app.register_blueprint(documented_blueprint)
+
+        assert '/test' in get_paths(spec)
+
+    def test_document_document_false(self, app, spec):
+        documented_blueprint = DocumentedBlueprint('test', __name__, spec)
+
+        @documented_blueprint.route('/test', document=False)
+        def test():
+            return 'Hello'
+
+        app.register_blueprint(documented_blueprint)
+
+        assert '/test' not in get_paths(spec)
+
+    def test_docstring_introspection(self, app, spec):
+        documented_blueprint = DocumentedBlueprint('test', __name__, spec)
+
+        @documented_blueprint.route('/test')
+        def test():
+            """A test endpoint.
+            ---
+            get:
+                description: Test description
+                responses:
+                    200:
+                        description: Test OK answer
+            """
+            return 'Test'
+
+        app.register_blueprint(documented_blueprint)
+
+        paths = get_paths(spec)
+        assert '/test' in paths
+        get_op = paths['/test']['get']
+        assert get_op['description'] == 'Test description'
+
+    def test_docstring_introspection_multiple_routes(self, app, spec):
+        documented_blueprint = DocumentedBlueprint('test', __name__, spec)
+
+        @documented_blueprint.route('/test')
+        def test_get():
+            """A test endpoint.
+            ---
+            get:
+                description: Get test description
+                responses:
+                    200:
+                        description: Test OK answer
+            """
+            return 'Test'
+
+        @documented_blueprint.route('/test', methods=['POST'])
+        def test_post():
+            """A test endpoint.
+            ---
+            post:
+                description: Post test description
+                responses:
+                    200:
+                        description: Test OK answer
+            """
+            return 'Test'
+
+        app.register_blueprint(documented_blueprint)
+
+        paths = get_paths(spec)
+        assert '/test' in paths
+        get_op = paths['/test']['get']
+        post_op = paths['/test']['post']
+        assert get_op['description'] == 'Get test description'
+        assert post_op['description'] == 'Post test description'
+
+    def test_docstring_introspection_multiple_http_methods(self, app, spec):
+        documented_blueprint = DocumentedBlueprint('test', __name__, spec)
+
+        @documented_blueprint.route('/test', methods=['GET', 'POST'])
+        def test_get():
+            """A test endpoint.
+            ---
+            get:
+                description: Get test description
+                responses:
+                    200:
+                        description: Test OK answer
+            post:
+                description: Post test description
+                responses:
+                    200:
+                        description: Test OK answer
+            """
+            return 'Test'
+
+        app.register_blueprint(documented_blueprint)
+
+        paths = get_paths(spec)
+        assert '/test' in paths
+        get_op = paths['/test']['get']
+        post_op = paths['/test']['post']
+        assert get_op['description'] == 'Get test description'
+        assert post_op['description'] == 'Post test description'

@@ -66,13 +66,12 @@ Passing a method view function::
 from __future__ import absolute_import
 import re
 
-from flask import current_app
+from flask import current_app, Blueprint
 from flask.views import MethodView
 
 from apispec.compat import iteritems
 from apispec import BasePlugin, yaml_utils
 from apispec.exceptions import APISpecError
-
 
 # from flask-restplus
 RE_URL = re.compile(r'<(?:[^:<>]+:)?([^<>]+)>')
@@ -114,3 +113,31 @@ class FlaskPlugin(BasePlugin):
                     method = getattr(view.view_class, method_name)
                     operations[method_name] = yaml_utils.load_yaml_from_docstring(method.__doc__)
         return self.flaskpath2openapi(rule.rule)
+
+
+class DocumentedBlueprint(Blueprint):
+    """Flask Blueprint which documents every view function defined in it."""
+
+    def __init__(self, name, import_name, spec):
+        super(DocumentedBlueprint, self).__init__(name, import_name)
+        self.documented_view_functions = []
+        self.spec = spec
+
+    def route(self, rule, document=True, **options):
+        """If document is set to True, the route will be added to the spec.
+        :param bool document: Whether you want this route to be added to the spec or not.
+        """
+
+        def decorator(f):
+            if document and f not in self.documented_view_functions:
+                self.documented_view_functions.append(f)
+            return super(DocumentedBlueprint, self).route(rule, **options)(f)
+
+        return decorator
+
+    def register(self, app, options, first_registration=False):
+        """Register current blueprint in the app. Add all the view_functions to the spec."""
+        super(DocumentedBlueprint, self).register(app, options, first_registration=first_registration)
+        with app.app_context():
+            for f in self.documented_view_functions:
+                self.spec.path(view=f)
