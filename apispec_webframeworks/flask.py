@@ -61,6 +61,45 @@ Passing a method view function::
     #             'post': {},
     #             'x-extension': 'metadata'}}
 
+Using DocumentedBlueprint:
+
+    from flask import Flask
+    from flask.views import MethodView
+
+    app = Flask(__name__)
+    documented_blueprint = DocumentedBlueprint('gistapi', __name__)
+
+    @documented_blueprint.route('/gists/<gist_id>')
+    def gist_detail(gist_id):
+        '''Gist detail view.
+        ---
+        x-extension: metadata
+        get:
+            responses:
+                200:
+                    schema:
+                        $ref: '#/definitions/Gist'
+        '''
+        return 'detail for gist {}'.format(gist_id)
+
+    @documented_blueprint.route('/repos/<repo_id>', documented=False)
+    def repo_detail(repo_id):
+        '''This endpoint won't be documented
+        ---
+        x-extension: metadata
+        get:
+            responses:
+                200:
+                    schema:
+                        $ref: '#/definitions/Repo'
+        '''
+        return 'detail for repo {}'.format(repo_id)
+
+    app.register_blueprint(documented_blueprint)
+
+    print(spec.to_dict()['paths'])
+    # {'/gists/{gist_id}': {'get': {'responses': {200: {'schema': {'$ref': '#/definitions/Gist'}}}},
+    #                  'x-extension': 'metadata'}}
 
 """
 from __future__ import absolute_import
@@ -123,13 +162,13 @@ class DocumentedBlueprint(Blueprint):
         self.documented_view_functions = []
         self.spec = spec
 
-    def route(self, rule, document=True, **options):
-        """If document is set to True, the route will be added to the spec.
-        :param bool document: Whether you want this route to be added to the spec or not.
+    def route(self, rule, documented=True, **options):
+        """If documented is set to True, the route will be added to the spec.
+        :param bool documented: Whether you want this route to be added to the spec or not.
         """
 
         def decorator(f):
-            if document and f not in self.documented_view_functions:
+            if documented and f not in self.documented_view_functions:
                 self.documented_view_functions.append(f)
             return super(DocumentedBlueprint, self).route(rule, **options)(f)
 

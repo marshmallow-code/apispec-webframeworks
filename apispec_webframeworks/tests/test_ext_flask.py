@@ -180,7 +180,7 @@ class TestDocumentedBlueprint:
     def test_document_document_true(self, app, spec):
         documented_blueprint = DocumentedBlueprint('test', __name__, spec)
 
-        @documented_blueprint.route('/test', document=True)
+        @documented_blueprint.route('/test', documented=True)
         def test():
             return 'Hello'
 
@@ -191,7 +191,7 @@ class TestDocumentedBlueprint:
     def test_document_document_false(self, app, spec):
         documented_blueprint = DocumentedBlueprint('test', __name__, spec)
 
-        @documented_blueprint.route('/test', document=False)
+        @documented_blueprint.route('/test', documented=False)
         def test():
             return 'Hello'
 
