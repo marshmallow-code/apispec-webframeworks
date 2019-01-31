@@ -1,7 +1,7 @@
 Changelog
 ---------
 
-0.3.0 (unreleased)
+0.3.0 (2019-01-31)
 ++++++++++++++++++
 
 * FlaskPlugin: Don't add APPLICATION_ROOT to paths (:issue:`19`).
