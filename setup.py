@@ -11,7 +11,7 @@ EXTRAS_REQUIRE = {
         'bottle==0.12.16',
     ],
     'lint': [
-        'flake8==3.7.3',
+        'flake8==3.7.4',
         'pre-commit==1.14.2',
     ],
 }
