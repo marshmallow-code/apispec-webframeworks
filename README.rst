@@ -3,7 +3,7 @@ apispec-webframeworks
 *********************
 
 .. image:: https://badgen.net/pypi/v/apispec-webframeworks
-    :target: https://badge.fury.io/py/apispec-webframeworks
+    :target: https://pypi.org/project/apispec-webframeworks/
     :alt: PyPI version
 
 .. image:: https://badgen.net/travis/marshmallow-code/apispec-webframeworks/master
