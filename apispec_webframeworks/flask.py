@@ -159,6 +159,10 @@ class DocumentedBlueprint(Blueprint):
     """Flask Blueprint which documents every view function defined in it."""
 
     def __init__(self, name, import_name, spec):
+        """
+        Initialize blueprint. Must be provided an APISpec object.
+        :param APISpec spec: APISpec object which will be attached to the blueprint.
+        """
         super(DocumentedBlueprint, self).__init__(name, import_name)
         self.documented_view_functions = defaultdict(list)
         self.spec = spec
