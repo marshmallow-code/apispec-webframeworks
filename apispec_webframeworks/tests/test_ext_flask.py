@@ -285,3 +285,30 @@ class TestDocumentedBlueprint:
         post_op = paths['/test']['post']
         assert get_op['description'] == 'Get test description'
         assert post_op['description'] == 'Post test description'
+
+    def test_docstring_introspection_add_url_rule(self, app, spec):
+        documented_blueprint = DocumentedBlueprint('test', __name__, spec)
+
+        @documented_blueprint.route('/')
+        def index():
+            """
+            Gist detail view.
+            ---
+            x-extension: metadata
+            get:
+                description: Get gist detail
+                responses:
+                    200:
+                        schema:
+                            $ref: '#/definitions/Gist'
+            """
+            return 'index'
+
+        documented_blueprint.add_url_rule('/', view_func=index, methods=['POST'])
+
+        app.register_blueprint(documented_blueprint)
+
+        paths = get_paths(spec)
+        assert '/' in paths
+        get_op = paths['/']['get']
+        assert get_op['description'] == 'Get gist detail'

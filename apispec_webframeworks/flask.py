@@ -103,6 +103,7 @@ Using DocumentedBlueprint:
 
 """
 from __future__ import absolute_import
+from collections import defaultdict
 import re
 
 from flask import current_app, Blueprint
@@ -159,7 +160,7 @@ class DocumentedBlueprint(Blueprint):
 
     def __init__(self, name, import_name, spec):
         super(DocumentedBlueprint, self).__init__(name, import_name)
-        self.documented_view_functions = []
+        self.documented_view_functions = defaultdict(list)
         self.spec = spec
 
     def route(self, rule, documented=True, **options):
@@ -167,16 +168,19 @@ class DocumentedBlueprint(Blueprint):
         :param bool documented: Whether you want this route to be added to the spec or not.
         """
 
-        def decorator(f):
-            if documented and f not in self.documented_view_functions:
-                self.documented_view_functions.append(f)
-            return super(DocumentedBlueprint, self).route(rule, **options)(f)
+        return super(DocumentedBlueprint, self).route(rule, documented=documented, **options)
 
-        return decorator
+    def add_url_rule(self, rule, endpoint=None, view_func=None, documented=True, **options):
+        """Like :meth:`Flask.add_url_rule` but for a blueprint.  The endpoint for
+        the :func:`url_for` function is prefixed with the name of the blueprint.
+        """
+        super(DocumentedBlueprint, self).add_url_rule(rule, endpoint=endpoint, view_func=view_func, **options)
+        if documented:
+            self.documented_view_functions[rule].append(view_func)
 
     def register(self, app, options, first_registration=False):
         """Register current blueprint in the app. Add all the view_functions to the spec."""
         super(DocumentedBlueprint, self).register(app, options, first_registration=first_registration)
         with app.app_context():
-            for f in self.documented_view_functions:
-                self.spec.path(view=f)
+            for rule, view_functions in self.documented_view_functions.items():
+                [self.spec.path(view=f) for f in view_functions]
