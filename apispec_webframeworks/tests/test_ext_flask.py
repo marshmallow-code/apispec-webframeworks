@@ -312,3 +312,48 @@ class TestDocumentedBlueprint:
         assert '/' in paths
         get_op = paths['/']['get']
         assert get_op['description'] == 'Get gist detail'
+
+    def test_docstring_introspection_methodview(self, app, spec):
+        documented_blueprint = DocumentedBlueprint('test', __name__, spec)
+
+        class Crud(MethodView):
+            """
+            Crud methodview.
+            ---
+            x-extension: global metadata
+            """
+
+            def get(self):
+                """
+                Crud get view.
+                ---
+                description: Crud get view.
+                responses:
+                    200:
+                        schema:
+                            $ref: '#/definitions/Crud'
+                """
+                return 'crud_get'
+
+            def post(self):
+                """
+                Crud post view.
+                ---
+                description: Crud post view.
+                responses:
+                    200:
+                        schema:
+                            $ref: '#/definitions/Crud'
+                """
+                return 'crud_get'
+
+        documented_blueprint.add_url_rule('/crud', view_func=Crud.as_view('crud_view'))
+
+        app.register_blueprint(documented_blueprint)
+
+        paths = get_paths(spec)
+        assert '/crud' in paths
+        get_op = paths['/crud']['get']
+        post_op = paths['/crud']['post']
+        assert get_op['description'] == 'Crud get view.'
+        assert post_op['description'] == 'Crud post view.'
