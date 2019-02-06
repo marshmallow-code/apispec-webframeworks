@@ -171,8 +171,8 @@ class DocumentedBlueprint(Blueprint):
         return super(DocumentedBlueprint, self).route(rule, documented=documented, **options)
 
     def add_url_rule(self, rule, endpoint=None, view_func=None, documented=True, **options):
-        """Like :meth:`Flask.add_url_rule` but for a blueprint.  The endpoint for
-        the :func:`url_for` function is prefixed with the name of the blueprint.
+        """If documented is set to True, the route will be added to the spec.
+        :param bool documented: Whether you want this route to be added to the spec or not.
         """
         super(DocumentedBlueprint, self).add_url_rule(rule, endpoint=endpoint, view_func=view_func, **options)
         if documented:
