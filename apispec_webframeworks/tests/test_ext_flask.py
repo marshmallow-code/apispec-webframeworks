@@ -174,3 +174,13 @@ class TestPathHelpers:
 
         spec.path(view=get_pet)
         assert '/pet/{pet_id}' in get_paths(spec)
+
+    def test_explicit_app_kwarg(self, spec):
+        app = Flask(__name__)
+
+        @app.route('/pet/<pet_id>')
+        def get_pet(pet_id):
+            return 'representation of pet {pet_id}'.format(pet_id=pet_id)
+
+        spec.path(view=get_pet, app=app)
+        assert '/pet/{pet_id}' in get_paths(spec)
