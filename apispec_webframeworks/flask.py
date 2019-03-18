@@ -61,18 +61,57 @@ Passing a method view function::
     #             'post': {},
     #             'x-extension': 'metadata'}}
 
+Using DocumentedBlueprint:
+
+    from flask import Flask
+    from flask.views import MethodView
+
+    app = Flask(__name__)
+    documented_blueprint = DocumentedBlueprint('gistapi', __name__)
+
+    @documented_blueprint.route('/gists/<gist_id>')
+    def gist_detail(gist_id):
+        '''Gist detail view.
+        ---
+        x-extension: metadata
+        get:
+            responses:
+                200:
+                    schema:
+                        $ref: '#/definitions/Gist'
+        '''
+        return 'detail for gist {}'.format(gist_id)
+
+    @documented_blueprint.route('/repos/<repo_id>', documented=False)
+    def repo_detail(repo_id):
+        '''This endpoint won't be documented
+        ---
+        x-extension: metadata
+        get:
+            responses:
+                200:
+                    schema:
+                        $ref: '#/definitions/Repo'
+        '''
+        return 'detail for repo {}'.format(repo_id)
+
+    app.register_blueprint(documented_blueprint)
+
+    print(spec.to_dict()['paths'])
+    # {'/gists/{gist_id}': {'get': {'responses': {200: {'schema': {'$ref': '#/definitions/Gist'}}}},
+    #                  'x-extension': 'metadata'}}
 
 """
 from __future__ import absolute_import
+from collections import defaultdict
 import re
 
-from flask import current_app
+from flask import current_app, Blueprint
 from flask.views import MethodView
 
 from apispec.compat import iteritems
 from apispec import BasePlugin, yaml_utils
 from apispec.exceptions import APISpecError
-
 
 # from flask-restplus
 RE_URL = re.compile(r'<(?:[^:<>]+:)?([^<>]+)>')
@@ -114,3 +153,38 @@ class FlaskPlugin(BasePlugin):
                     method = getattr(view.view_class, method_name)
                     operations[method_name] = yaml_utils.load_yaml_from_docstring(method.__doc__)
         return self.flaskpath2openapi(rule.rule)
+
+
+class DocumentedBlueprint(Blueprint):
+    """Flask Blueprint which documents every view function defined in it."""
+
+    def __init__(self, name, import_name, spec):
+        """
+        Initialize blueprint. Must be provided an APISpec object.
+        :param APISpec spec: APISpec object which will be attached to the blueprint.
+        """
+        super(DocumentedBlueprint, self).__init__(name, import_name)
+        self.documented_view_functions = defaultdict(list)
+        self.spec = spec
+
+    def route(self, rule, documented=True, **options):
+        """If documented is set to True, the route will be added to the spec.
+        :param bool documented: Whether you want this route to be added to the spec or not.
+        """
+
+        return super(DocumentedBlueprint, self).route(rule, documented=documented, **options)
+
+    def add_url_rule(self, rule, endpoint=None, view_func=None, documented=True, **options):
+        """If documented is set to True, the route will be added to the spec.
+        :param bool documented: Whether you want this route to be added to the spec or not.
+        """
+        super(DocumentedBlueprint, self).add_url_rule(rule, endpoint=endpoint, view_func=view_func, **options)
+        if documented:
+            self.documented_view_functions[rule].append(view_func)
+
+    def register(self, app, options, first_registration=False):
+        """Register current blueprint in the app. Add all the view_functions to the spec."""
+        super(DocumentedBlueprint, self).register(app, options, first_registration=first_registration)
+        with app.app_context():
+            for rule, view_functions in self.documented_view_functions.items():
+                [self.spec.path(view=f) for f in view_functions]
