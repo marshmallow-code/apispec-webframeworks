@@ -17,3 +17,4 @@ Contributors (chronological)
 - Felix Yan `@felixonmars <https://github.com/felixonmars>`_
 - Jérôme Lafréchoux `@lafrech <https://github.com/lafrech>`_
 - Marcin Lulek `@ergo <https://github.com/ergo>`_
+- Aaron Ramshaw `@ramshaw888 <https://github.com/ramshaw888>`_

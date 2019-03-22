@@ -1,6 +1,12 @@
 Changelog
 ---------
 
+0.4.0 (unreleased)
+++++++++++++++++++
+
+* FlaskPlugin: Allow passing an app to ``spec.path`` (:pr:`33`).
+  Thanks :user:`ramshaw888`.
+
 0.3.0 (2019-01-31)
 ++++++++++++++++++
 
