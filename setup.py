@@ -36,7 +36,8 @@ setup(
     author='Steven Loria',
     author_email='sloria1@gmail.com',
     url='https://github.com/marshmallow-code/apispec-webframeworks',
-    packages=find_packages(exclude=('test*', )),
+    packages=find_packages('src'),
+    package_dir={'': 'src'},
     include_package_data=True,
     install_requires=[
         'apispec[yaml]>=1.0.0b5',
