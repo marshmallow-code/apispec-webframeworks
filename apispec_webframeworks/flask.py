@@ -56,6 +56,10 @@ Passing a method view function::
     app.add_url_rule("/gists", view_func=method_view)
     with app.test_request_context():
         spec.path(view=method_view)
+
+    # Alternatively, pass in an app object as a kwarg
+    # spec.path(view=method_view, app=app)
+
     print(spec.to_dict()['paths'])
     # {'/gists': {'get': {'responses': {200: {'schema': {'$ref': '#/definitions/Gist'}}}},
     #             'post': {},
@@ -90,8 +94,11 @@ class FlaskPlugin(BasePlugin):
         return RE_URL.sub(r'{\1}', path)
 
     @staticmethod
-    def _rule_for_view(view):
-        view_funcs = current_app.view_functions
+    def _rule_for_view(view, app=None):
+        if app is None:
+            app = current_app
+
+        view_funcs = app.view_functions
         endpoint = None
         for ept, view_func in iteritems(view_funcs):
             if view_func == view:
@@ -100,12 +107,12 @@ class FlaskPlugin(BasePlugin):
             raise APISpecError('Could not find endpoint for view {0}'.format(view))
 
         # WARNING: Assume 1 rule per view function for now
-        rule = current_app.url_map._rules_by_endpoint[endpoint][0]
+        rule = app.url_map._rules_by_endpoint[endpoint][0]
         return rule
 
-    def path_helper(self, operations, view, **kwargs):
+    def path_helper(self, operations, view, app=None, **kwargs):
         """Path helper that allows passing a Flask view function."""
-        rule = self._rule_for_view(view)
+        rule = self._rule_for_view(view, app=app)
         operations.update(yaml_utils.load_operations_from_docstring(view.__doc__))
         if hasattr(view, 'view_class') and issubclass(view.view_class, MethodView):
             for method in view.methods:
