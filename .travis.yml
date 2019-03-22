@@ -1,4 +1,5 @@
 language: python
+dist: xenial
 cache: pip
 install: travis_retry pip install -U tox
 script: tox
@@ -24,10 +25,8 @@ jobs:
     env: TOXENV=py36-marshmallow3
 
   - python: '3.7'
-    dist: xenial    # required for Python 3.7 (travis-ci/travis-ci#9069)
     env: TOXENV=py37-marshmallow2
   - python: '3.7'
-    dist: xenial    # required for Python 3.7 (travis-ci/travis-ci#9069)
     env: TOXENV=py37-marshmallow3
 
   - stage: PyPI Release
