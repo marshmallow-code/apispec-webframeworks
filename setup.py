@@ -7,7 +7,7 @@ EXTRAS_REQUIRE = {
         'pytest',
         'mock',
         'Flask==1.0.2',
-        'tornado==5.1.1',
+        'tornado==6.0.2',
         'bottle==0.12.16',
     ],
     'lint': [
