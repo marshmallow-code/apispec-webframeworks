@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import pytest
+from collections import OrderedDict
 
 from flask import Flask
 from flask.views import MethodView
@@ -70,7 +71,7 @@ class TestPathHelpers:
         spec.path(view=method_view)
         expected = {
             'description': 'get a greeting',
-            'responses': {200: {'description': 'said hi'}},
+            'responses': {'200': {'description': 'said hi'}},
         }
         paths = get_paths(spec)
         assert paths['/hi']['get'] == expected
