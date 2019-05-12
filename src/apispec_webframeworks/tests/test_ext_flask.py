@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 import pytest
-from collections import OrderedDict
 
 from flask import Flask
 from flask.views import MethodView
