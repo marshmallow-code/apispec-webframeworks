@@ -6,7 +6,7 @@ EXTRAS_REQUIRE = {
     'tests': [
         'pytest',
         'mock',
-        'Flask==1.0.2',
+        'Flask==1.0.3',
         'tornado==5.1.1',
         'bottle==0.12.16',
     ],
