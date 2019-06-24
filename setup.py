@@ -8,7 +8,7 @@ EXTRAS_REQUIRE = {
         'mock',
         'Flask==1.0.3',
         'tornado==5.1.1',
-        'bottle==0.12.16',
+        'bottle==0.12.17',
     ],
     'lint': [
         'flake8==3.7.7',
