@@ -86,14 +86,14 @@ Example Usage
     @app.route("/gists/<gist_id>")
     def gist_detail(gist_id):
         """Gist detail view.
-       ---
-       get:
-          parameters:
-                - in: path
-                schema: GistParameter
-          responses:
-                200:
-                   schema: GistSchema
+        ---
+        get:
+            parameters:
+                    - in: path
+                    schema: GistParameter
+            responses:
+                    200:
+                    schema: GistSchema
        """
         return "details about gist {}".format(gist_id)
 
