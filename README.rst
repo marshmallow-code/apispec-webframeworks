@@ -14,6 +14,10 @@ apispec-webframeworks
     :target: https://marshmallow.readthedocs.io/en/latest/upgrading.html
     :alt: marshmallow 2/3 compatible
 
+.. image:: https://badgen.net/badge/code%20style/black/000
+    :target: https://github.com/ambv/black
+    :alt: code style: black
+
 `apispec <https://github.com/marshmallow-code/apispec>`_ plugins for
 integrating with various web frameworks.
 
