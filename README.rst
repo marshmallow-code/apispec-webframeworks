@@ -60,30 +60,28 @@ Example Usage
     from marshmallow import Schema, fields
 
     spec = APISpec(
-       title='Gisty',
-       version='1.0.0',
-       info=dict(
-           description='A minimal gist API'
-       ),
-       plugins=[
-          FlaskPlugin(),
-          MarshmallowPlugin(),
-       ]
+        title="Gisty",
+        version="1.0.0",
+        info=dict(description="A minimal gist API"),
+        plugins=[FlaskPlugin(), MarshmallowPlugin()],
     )
 
 
     app = Flask(__name__)
 
+
     class GistParameter(Schema):
-       gist_id = fields.Int()
+        gist_id = fields.Int()
+
 
     class GistSchema(Schema):
-       id = fields.Int()
-       content = fields.Str()
+        id = fields.Int()
+        content = fields.Str()
 
-    @app.route('/gists/<gist_id>')
+
+    @app.route("/gists/<gist_id>")
     def gist_detail(gist_id):
-       """Gist detail view.
+        """Gist detail view.
        ---
        get:
           parameters:
@@ -93,12 +91,13 @@ Example Usage
                 200:
                    schema: GistSchema
        """
-       return 'details about gist {}'.format(gist_id)
+        return "details about gist {}".format(gist_id)
+
 
     # Since `path` inspects the view and its route,
     # we need to be in a Flask request context
     with app.test_request_context():
-       spec.path(view=gist_detail)
+        spec.path(view=gist_detail)
 
 Documentation
 =============
