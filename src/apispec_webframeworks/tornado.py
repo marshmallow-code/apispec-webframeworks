@@ -67,17 +67,17 @@ class TornadoPlugin(BasePlugin):
         if sys.version_info >= (3, 3):
             args = list(inspect.signature(method).parameters.keys())[1:]
         else:
-            if getattr(method, '__tornado_coroutine__', False):
+            if getattr(method, "__tornado_coroutine__", False):
                 method = method.__wrapped__
             args = inspect.getargspec(method).args[1:]
-        params = tuple('{{{}}}'.format(arg) for arg in args)
+        params = tuple("{{{}}}".format(arg) for arg in args)
         try:
             path_tpl = urlspec.matcher._path
         except AttributeError:  # tornado<4.5
             path_tpl = urlspec._path
-        path = (path_tpl % params)
-        if path.count('/') > 1:
-            path = path.rstrip('/?*')
+        path = path_tpl % params
+        if path.count("/") > 1:
+            path = path.rstrip("/?*")
         return path
 
     @staticmethod
@@ -96,9 +96,7 @@ class TornadoPlugin(BasePlugin):
         for operation in self._operations_from_methods(urlspec.handler_class):
             operations.update(operation)
         if not operations:
-            raise APISpecError(
-                'Could not find endpoint for urlspec {0}'.format(urlspec),
-            )
+            raise APISpecError("Could not find endpoint for urlspec {}".format(urlspec))
         params_method = getattr(urlspec.handler_class, list(operations.keys())[0])
         operations.update(self._extensions_from_handler(urlspec.handler_class))
         return self.tornadopath2openapi(urlspec, params_method)

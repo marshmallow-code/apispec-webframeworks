@@ -30,7 +30,7 @@ from apispec import BasePlugin, yaml_utils
 from apispec.exceptions import APISpecError
 
 
-RE_URL = re.compile(r'<(?:[^:<>]+:)?([^<>]+)>')
+RE_URL = re.compile(r"<(?:[^:<>]+:)?([^<>]+)>")
 
 _default_app = default_app()
 
@@ -40,7 +40,7 @@ class BottlePlugin(BasePlugin):
 
     @staticmethod
     def bottle_path_to_openapi(path):
-        return RE_URL.sub(r'{\1}', path)
+        return RE_URL.sub(r"{\1}", path)
 
     @staticmethod
     def _route_for_view(app, view):
@@ -50,12 +50,12 @@ class BottlePlugin(BasePlugin):
                 endpoint = route
                 break
         if not endpoint:
-            raise APISpecError('Could not find endpoint for route {0}'.format(view))
+            raise APISpecError("Could not find endpoint for route {}".format(view))
         return endpoint
 
     def path_helper(self, operations, view, **kwargs):
         """Path helper that allows passing a bottle view function."""
         operations.update(yaml_utils.load_operations_from_docstring(view.__doc__))
-        app = kwargs.get('app', _default_app)
+        app = kwargs.get("app", _default_app)
         route = self._route_for_view(app, view)
         return self.bottle_path_to_openapi(route.rule)
