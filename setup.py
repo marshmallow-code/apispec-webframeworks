@@ -6,7 +6,7 @@ EXTRAS_REQUIRE = {
     "tests": ["pytest", "mock", "Flask==1.1.1", "tornado", "bottle==0.12.17"],
     "lint": [
         "flake8==3.7.8",
-        'flake8-bugbear==19.3.0; python_version >= "3.5"',
+        'flake8-bugbear==19.8.0; python_version >= "3.5"',
         "pre-commit~=1.17",
     ],
 }
