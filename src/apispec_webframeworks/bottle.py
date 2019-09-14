@@ -51,7 +51,7 @@ class BottlePlugin(BasePlugin):
             raise APISpecError(f"Could not find endpoint for route {view}")
         return endpoint
 
-    def path_helper(self, operations, view, **kwargs):
+    def path_helper(self, operations, *, view, **kwargs):
         """Path helper that allows passing a bottle view function."""
         operations.update(yaml_utils.load_operations_from_docstring(view.__doc__))
         app = kwargs.get("app", _default_app)

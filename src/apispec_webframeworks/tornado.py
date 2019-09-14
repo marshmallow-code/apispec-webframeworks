@@ -87,7 +87,7 @@ class TornadoPlugin(BasePlugin):
         """
         return yaml_utils.load_yaml_from_docstring(handler_class.__doc__)
 
-    def path_helper(self, operations, urlspec, **kwargs):
+    def path_helper(self, operations, *, urlspec, **kwargs):
         """Path helper that allows passing a Tornado URLSpec or tuple."""
         if not isinstance(urlspec, URLSpec):
             urlspec = URLSpec(*urlspec)
