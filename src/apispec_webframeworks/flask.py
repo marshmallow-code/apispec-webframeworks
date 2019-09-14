@@ -73,7 +73,6 @@ import re
 from flask import current_app
 from flask.views import MethodView
 
-from apispec.compat import iteritems
 from apispec import BasePlugin, yaml_utils
 from apispec.exceptions import APISpecError
 
@@ -100,7 +99,7 @@ class FlaskPlugin(BasePlugin):
 
         view_funcs = app.view_functions
         endpoint = None
-        for ept, view_func in iteritems(view_funcs):
+        for ept, view_func in view_funcs.items():
             if view_func == view:
                 endpoint = ept
         if not endpoint:
