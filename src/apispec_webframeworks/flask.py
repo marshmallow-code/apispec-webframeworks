@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """Flask plugin. Includes a path helper that allows you to pass a view
 function to `path`. Inspects URL rules and view docstrings.
 
@@ -103,7 +102,7 @@ class FlaskPlugin(BasePlugin):
             if view_func == view:
                 endpoint = ept
         if not endpoint:
-            raise APISpecError("Could not find endpoint for view {}".format(view))
+            raise APISpecError(f"Could not find endpoint for view {view}")
 
         # WARNING: Assume 1 rule per view function for now
         rule = app.url_map._rules_by_endpoint[endpoint][0]

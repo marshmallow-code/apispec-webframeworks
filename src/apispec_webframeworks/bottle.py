@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """Bottle plugin. Includes a path helper that allows you to pass a view function
 to `path`.
 ::
@@ -50,7 +49,7 @@ class BottlePlugin(BasePlugin):
                 endpoint = route
                 break
         if not endpoint:
-            raise APISpecError("Could not find endpoint for route {}".format(view))
+            raise APISpecError(f"Could not find endpoint for route {view}")
         return endpoint
 
     def path_helper(self, operations, view, **kwargs):
