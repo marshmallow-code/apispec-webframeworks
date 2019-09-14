@@ -28,7 +28,6 @@ object to `path`.
     #                                         'schema': {'$ref': '#/definitions/Greeting'}}}}}}
 
 """
-from __future__ import absolute_import
 import inspect
 import sys
 from tornado.web import URLSpec

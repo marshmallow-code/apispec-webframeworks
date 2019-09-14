@@ -66,7 +66,6 @@ Passing a method view function::
 
 
 """
-from __future__ import absolute_import
 import re
 
 from flask import current_app
