@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import pytest
 
 from bottle import route
@@ -95,7 +94,7 @@ class TestPathHelpers:
     def test_path_is_translated_to_openapi_template(self, spec):
         @route("/pet/<pet_id>")
         def get_pet(pet_id):
-            return "representation of pet {pet_id}".format(pet_id=pet_id)
+            return f"representation of pet {pet_id}"
 
         spec.path(view=get_pet)
         assert "/pet/{pet_id}" in get_paths(spec)

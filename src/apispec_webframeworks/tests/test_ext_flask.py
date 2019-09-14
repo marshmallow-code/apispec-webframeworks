@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import pytest
 
 from flask import Flask
@@ -168,7 +167,7 @@ class TestPathHelpers:
     def test_path_is_translated_to_swagger_template(self, app, spec):
         @app.route("/pet/<pet_id>")
         def get_pet(pet_id):
-            return "representation of pet {pet_id}".format(pet_id=pet_id)
+            return f"representation of pet {pet_id}"
 
         spec.path(view=get_pet)
         assert "/pet/{pet_id}" in get_paths(spec)
@@ -178,7 +177,7 @@ class TestPathHelpers:
 
         @app.route("/pet/<pet_id>")
         def get_pet(pet_id):
-            return "representation of pet {pet_id}".format(pet_id=pet_id)
+            return f"representation of pet {pet_id}"
 
         spec.path(view=get_pet, app=app)
         assert "/pet/{pet_id}" in get_paths(spec)

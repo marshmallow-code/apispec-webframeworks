@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """Flask plugin. Includes a path helper that allows you to pass a view
 function to `path`. Inspects URL rules and view docstrings.
 
@@ -67,7 +66,6 @@ Passing a method view function::
 
 
 """
-from __future__ import absolute_import
 import re
 
 from flask import current_app
@@ -103,13 +101,13 @@ class FlaskPlugin(BasePlugin):
             if view_func == view:
                 endpoint = ept
         if not endpoint:
-            raise APISpecError("Could not find endpoint for view {}".format(view))
+            raise APISpecError(f"Could not find endpoint for view {view}")
 
         # WARNING: Assume 1 rule per view function for now
         rule = app.url_map._rules_by_endpoint[endpoint][0]
         return rule
 
-    def path_helper(self, operations, view, app=None, **kwargs):
+    def path_helper(self, operations, *, view, app=None, **kwargs):
         """Path helper that allows passing a Flask view function."""
         rule = self._rule_for_view(view, app=app)
         operations.update(yaml_utils.load_operations_from_docstring(view.__doc__))

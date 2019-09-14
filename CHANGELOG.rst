@@ -1,6 +1,11 @@
 Changelog
 ---------
 
+0.5.0 (unreleased)
+++++++++++++++++++
+
+* Drop support for Python 2.7 and Python 3.5. Only Python>=3.6 is supported.
+
 0.4.0 (2019-03-21)
 ++++++++++++++++++
 

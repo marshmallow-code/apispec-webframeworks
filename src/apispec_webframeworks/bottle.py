@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """Bottle plugin. Includes a path helper that allows you to pass a view function
 to `path`.
 ::
@@ -21,7 +20,6 @@ to `path`.
     print(spec.to_dict()['paths'])
     # {'/gists/{gist_id}': {'get': {'responses': {200: {'schema': {'$ref': '#/definitions/Gist'}}}}}}
 """
-from __future__ import absolute_import
 import re
 
 from bottle import default_app
@@ -50,10 +48,10 @@ class BottlePlugin(BasePlugin):
                 endpoint = route
                 break
         if not endpoint:
-            raise APISpecError("Could not find endpoint for route {}".format(view))
+            raise APISpecError(f"Could not find endpoint for route {view}")
         return endpoint
 
-    def path_helper(self, operations, view, **kwargs):
+    def path_helper(self, operations, *, view, **kwargs):
         """Path helper that allows passing a bottle view function."""
         operations.update(yaml_utils.load_operations_from_docstring(view.__doc__))
         app = kwargs.get("app", _default_app)

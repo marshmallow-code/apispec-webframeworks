@@ -1,14 +1,9 @@
-# -*- coding: utf-8 -*-
 from setuptools import setup, find_packages
 
 VERSION = "0.4.0"
 EXTRAS_REQUIRE = {
     "tests": ["pytest", "mock", "Flask==1.1.1", "tornado", "bottle==0.12.17"],
-    "lint": [
-        "flake8==3.7.8",
-        'flake8-bugbear==19.8.0; python_version >= "3.5"',
-        "pre-commit~=1.17",
-    ],
+    "lint": ["flake8==3.7.8", "flake8-bugbear==19.8.0", "pre-commit~=1.17"],
 }
 EXTRAS_REQUIRE["dev"] = EXTRAS_REQUIRE["tests"] + EXTRAS_REQUIRE["lint"] + ["tox"]
 
@@ -31,6 +26,7 @@ setup(
     package_dir={"": "src"},
     include_package_data=True,
     install_requires=["apispec[yaml]>=1.0.0b5"],
+    python_requires=">=3.6",
     extras_require=EXTRAS_REQUIRE,
     license="MIT",
     zip_safe=False,
@@ -54,10 +50,7 @@ setup(
         "Intended Audience :: Developers",
         "License :: OSI Approved :: MIT License",
         "Natural Language :: English",
-        "Programming Language :: Python :: 2",
-        "Programming Language :: Python :: 2.7",
         "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.5",
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
     ],

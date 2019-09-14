@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """Tornado plugin. Includes a path helper that allows you to pass an urlspec (path-handler pair)
 object to `path`.
 ::
@@ -29,7 +28,6 @@ object to `path`.
     #                                         'schema': {'$ref': '#/definitions/Greeting'}}}}}}
 
 """
-from __future__ import absolute_import
 import inspect
 import sys
 from tornado.web import URLSpec
@@ -70,7 +68,7 @@ class TornadoPlugin(BasePlugin):
             if getattr(method, "__tornado_coroutine__", False):
                 method = method.__wrapped__
             args = inspect.getargspec(method).args[1:]
-        params = tuple("{{{}}}".format(arg) for arg in args)
+        params = tuple(f"{{{arg}}}" for arg in args)
         try:
             path_tpl = urlspec.matcher._path
         except AttributeError:  # tornado<4.5
@@ -89,14 +87,14 @@ class TornadoPlugin(BasePlugin):
         """
         return yaml_utils.load_yaml_from_docstring(handler_class.__doc__)
 
-    def path_helper(self, operations, urlspec, **kwargs):
+    def path_helper(self, operations, *, urlspec, **kwargs):
         """Path helper that allows passing a Tornado URLSpec or tuple."""
         if not isinstance(urlspec, URLSpec):
             urlspec = URLSpec(*urlspec)
         for operation in self._operations_from_methods(urlspec.handler_class):
             operations.update(operation)
         if not operations:
-            raise APISpecError("Could not find endpoint for urlspec {}".format(urlspec))
+            raise APISpecError(f"Could not find endpoint for urlspec {urlspec}")
         params_method = getattr(urlspec.handler_class, list(operations.keys())[0])
         operations.update(self._extensions_from_handler(urlspec.handler_class))
         return self.tornadopath2openapi(urlspec, params_method)
