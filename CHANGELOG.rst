@@ -1,9 +1,10 @@
 Changelog
 ---------
 
-0.5.0 (unreleased)
+0.5.0 (2019-09-19)
 ++++++++++++++++++
 
+* Fix compatibility with apispec 3.0.
 * Drop support for Python 2.7 and Python 3.5. Only Python>=3.6 is supported.
 * Drop support for apispec<2.
 
