@@ -126,3 +126,32 @@ class TestPathHelpers:
         assert "get" in paths[path]
         expected = {"parameters": [], "responses": {"200": {}}}
         assert paths[path]["get"] == expected
+
+    class ExtraArgsHandler(RequestHandler):
+        def get(self, param1, param2, extra_param):
+            self.write("hello")
+
+    class ExtraArgsHandler2(RequestHandler):
+        @tornado.gen.coroutine
+        def get(self, param1, param2, extra_param):
+            self.write("hello")
+
+    @pytest.mark.parametrize("Handler", [ExtraArgsHandler, ExtraArgsHandler2])
+    def test_named_groups_in_path_with_extra_params(self, spec, Handler):
+        urlspec = (r"/hello/(?P<param1>[^/]+)/world/(?P<param2>[^/]+)", Handler)
+        operations = {"get": {"parameters": [], "responses": {"200": {}}}}
+
+        spec.path(urlspec=urlspec, operations=operations)
+        path = "/hello/{param1}/world/{param2}"
+        paths = get_paths(spec)
+        assert path in paths
+
+    @pytest.mark.parametrize("Handler", [ExtraArgsHandler, ExtraArgsHandler2])
+    def test_no_groups_in_path_with_extra_params(self, spec, Handler):
+        urlspec = (r"/helloworld", Handler)
+        operations = {"get": {"parameters": [], "responses": {"200": {}}}}
+
+        spec.path(urlspec=urlspec, operations=operations)
+        path = "/helloworld"
+        paths = get_paths(spec)
+        assert path in paths

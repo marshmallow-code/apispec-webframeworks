@@ -29,7 +29,6 @@ object to `path`.
 
 """
 import inspect
-import sys
 from tornado.web import URLSpec
 
 from apispec import BasePlugin, yaml_utils
@@ -62,18 +61,26 @@ class TornadoPlugin(BasePlugin):
         :param method: Handler http method
         :type method: function
         """
-        if sys.version_info >= (3, 3):
-            args = list(inspect.signature(method).parameters.keys())[1:]
-        else:
-            if getattr(method, "__tornado_coroutine__", False):
-                method = method.__wrapped__
-            args = inspect.getargspec(method).args[1:]
-        params = tuple(f"{{{arg}}}" for arg in args)
         try:
+            regex = urlspec.matcher.regex
             path_tpl = urlspec.matcher._path
         except AttributeError:  # tornado<4.5
+            regex = urlspec.regex
             path_tpl = urlspec._path
-        path = path_tpl % params
+        if regex.groups:
+            if regex.groupindex:
+                # urlspec path uses named groups
+                sorted_pairs = sorted(
+                    ((k, v) for k, v in regex.groupindex.items()), key=lambda kv: kv[1]
+                )
+                args = [pair[0] for pair in sorted_pairs]
+            else:
+                args = list(inspect.signature(method).parameters.keys())[1:]
+
+            params = tuple(f"{{{arg}}}" for arg in args)
+            path = path_tpl % params
+        else:
+            path = path_tpl
         if path.count("/") > 1:
             path = path.rstrip("/?*")
         return path
