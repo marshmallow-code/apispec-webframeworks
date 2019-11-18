@@ -18,3 +18,4 @@ Contributors (chronological)
 - Jérôme Lafréchoux `@lafrech <https://github.com/lafrech>`_
 - Marcin Lulek `@ergo <https://github.com/ergo>`_
 - Aaron Ramshaw `@ramshaw888 <https://github.com/ramshaw888>`_
+- PelleK `@elfjes <https://github.com/elfjes>`_

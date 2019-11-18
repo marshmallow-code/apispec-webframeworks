@@ -1,6 +1,12 @@
 Changelog
 ---------
 
+0.5.1 (2019-11-18)
+++++++++++++++++++
+
+* TornadoPlugin: Allow decorators to modify method signatures (:issue:`61`).
+  Thanks :user:`elfjes` for the catch and patch.
+
 0.5.0 (2019-09-19)
 ++++++++++++++++++
 

@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-VERSION = "0.5.0"
+VERSION = "0.5.1"
 EXTRAS_REQUIRE = {
     "tests": ["pytest", "mock", "Flask==1.1.1", "tornado", "bottle==0.12.17"],
     "lint": ["flake8==3.7.9", "flake8-bugbear==19.8.0", "pre-commit~=1.18"],
