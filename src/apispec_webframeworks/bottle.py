@@ -27,8 +27,8 @@ from bottle import default_app
 from apispec import BasePlugin, yaml_utils
 from apispec.exceptions import APISpecError
 
+RE_URL = re.compile(r"<([^<>:]+):?[^>]*>")
 
-RE_URL = re.compile(r"<(?:[^:<>]+:)?([^<>]+)>")
 
 _default_app = default_app()
 
