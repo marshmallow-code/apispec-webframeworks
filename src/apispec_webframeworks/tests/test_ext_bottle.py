@@ -100,16 +100,12 @@ class TestPathHelpers:
         assert "/pet/{pet_id}" in get_paths(spec)
 
     @pytest.mark.parametrize(
-        "path, result",
-        [
-            ("/pet/<pet_id:int>/<name:re:[a-z]+>", "/pet/{pet_id}/{name}"),
-            ("/pet/<pet_id>/<shop_id>", "/pet/{pet_id}/{shop_id}"),
-        ],
+        "path", ["/pet/<pet_id:int>/<shop_id:re:[a-z]+>", "/pet/<pet_id>/<shop_id>"],
     )
-    def test_path_with_params(self, spec, path, result):
+    def test_path_with_params(self, spec, path):
         @route(path, methods=["GET"])
         def handler():
             pass
 
         spec.path(view=handler)
-        assert result in get_paths(spec)
+        assert "/pet/{pet_id}/{shop_id}" in get_paths(spec)
