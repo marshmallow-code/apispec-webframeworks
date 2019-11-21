@@ -99,10 +99,13 @@ class TestPathHelpers:
         spec.path(view=get_pet)
         assert "/pet/{pet_id}" in get_paths(spec)
 
-    def test_path_with_params(self, spec):
-        @route("/pet/<pet_id>/<shop_id>", methods=["POST"])
-        def set_pet():
-            return "new pet!"
+    @pytest.mark.parametrize(
+        "path", ["/pet/<pet_id:int>/<shop_id:re:[a-z]+>", "/pet/<pet_id>/<shop_id>"],
+    )
+    def test_path_with_params(self, spec, path):
+        @route(path, methods=["GET"])
+        def handler():
+            pass
 
-        spec.path(view=set_pet)
+        spec.path(view=handler)
         assert "/pet/{pet_id}/{shop_id}" in get_paths(spec)

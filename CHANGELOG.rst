@@ -1,6 +1,12 @@
 Changelog
 ---------
 
+0.5.2 (unreleased)
+++++++++++++++++++
+
+* BottlePlugin: Fix support for typed path arguments (:issue:`16`).
+  Thanks :user:`genbits` for reporting and thanks :user:`elfjes` for the fix.
+
 0.5.1 (2019-11-18)
 ++++++++++++++++++
 
