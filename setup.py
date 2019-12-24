@@ -30,7 +30,7 @@ setup(
     extras_require=EXTRAS_REQUIRE,
     license="MIT",
     zip_safe=False,
-    keywords=(
+    keywords=[
         "apispec",
         "swagger",
         "openapi",
@@ -44,7 +44,7 @@ setup(
         "tornado",
         "bottle",
         "frameworks",
-    ),
+    ],
     classifiers=[
         "Development Status :: 4 - Beta",
         "Intended Audience :: Developers",
