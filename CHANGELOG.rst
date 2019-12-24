@@ -1,6 +1,12 @@
 Changelog
 ---------
 
+0.5.3 (unreleased)
+++++++++++++++++++
+
+* Fix a warning with setuptools.
+  Thanks :user:`felixonmars` for the catch and patch.
+
 0.5.2 (2019-11-21)
 ++++++++++++++++++
 
