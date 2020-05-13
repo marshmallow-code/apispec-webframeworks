@@ -22,6 +22,7 @@ def spec(request):
 def app():
     return Chalice(__name__)
 
+
 class TestPathHelpers:
     def test_path_from_view(self, app, spec):
         @app.route("/hello")
@@ -29,7 +30,9 @@ class TestPathHelpers:
             return "hi"
 
         spec.path(
-            view=hello, app=app, operations={"get": {"parameters": [], "responses": {"200": {}}}}
+            view=hello,
+            app=app,
+            operations={"get": {"parameters": [], "responses": {"200": {}}}},
         )
         paths = get_paths(spec)
         assert "/hello" in paths
@@ -44,11 +47,11 @@ class TestPathHelpers:
 
         spec.path(
             view=hello,
+            app=app,
             operations=dict(
                 get={"description": "get a greeting", "responses": {"200": {}}},
                 post={"description": "post a greeting", "responses": {"200": {}}},
             ),
-            app=app
         )
         paths = get_paths(spec)
         get_op = paths["/hello"]["get"]
@@ -103,4 +106,3 @@ class TestPathHelpers:
 
         spec.path(view=get_pet, app=app)
         assert "/pet/{pet_id}" in get_paths(spec)
-
