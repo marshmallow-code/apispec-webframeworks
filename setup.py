@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 VERSION = "0.5.2"
 EXTRAS_REQUIRE = {
-    "tests": ["pytest", "mock", "Flask==1.1.2", "tornado", "bottle==0.12.18"],
+    "tests": ["pytest", "mock", "Flask==1.1.2", "tornado", "bottle==0.12.18", "chalice"],
     "lint": ["flake8==3.8.0", "flake8-bugbear==20.1.4", "pre-commit>=1.18,<3.0"],
 }
 EXTRAS_REQUIRE["dev"] = EXTRAS_REQUIRE["tests"] + EXTRAS_REQUIRE["lint"] + ["tox"]
@@ -44,6 +44,7 @@ setup(
         "tornado",
         "bottle",
         "frameworks",
+    ,   "chalice"
     ],
     classifiers=[
         "Development Status :: 4 - Beta",
