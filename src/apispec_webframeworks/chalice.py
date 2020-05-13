@@ -51,6 +51,8 @@ class ChalicePlugin(BasePlugin):
 
     def path_helper(self, operations, *, view, app, **kwargs):
         """Path helper that allows passing a chalice view function."""
+        if not isinstance(app, Chalice):
+            raise APISpecError(f"app must be an instance of chalice.Chalice")
         # parse through the documentation string to see what operations are defined
         operations.update(yaml_utils.load_operations_from_docstring(view.__doc__))
         # find the route for this view function
