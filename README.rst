@@ -94,7 +94,7 @@ Example Usage
             responses:
                     200:
                     schema: GistSchema
-       """
+        """
         return "details about gist {}".format(gist_id)
 
 
