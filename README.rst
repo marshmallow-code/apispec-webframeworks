@@ -143,7 +143,7 @@ To mitigate that one can make autodoc find the YAML just like apispec's
 
 
     def setup(app):
-        app.connect('autodoc-process-docstring', handle_apispec_in_docstring)
+        app.connect("autodoc-process-docstring', handle_apispec_in_docstring)
 
 
 Or, to preserve and format the YAML:
@@ -158,12 +158,14 @@ Or, to preserve and format the YAML:
         # prepend reST instructions
         del lines[idx]
         lines[idx:] = map(lambda s: "    {}".format(s), lines[idx:])
-        lines[idx:idx] = textwrap.dedent("""
+        lines[idx:idx] = textwrap.dedent(
+            """
             This defines the following OpenAPI fragment:
 
             .. code-block:: yaml
 
-            """).splitlines()
+            """
+        ).splitlines()
 
 Development
 ===========
