@@ -55,6 +55,9 @@ Change your imports, like so:
 Example Usage
 =============
 
+The plugins search the docstrings for lines that start with 3 dashes,
+and assume anything after such line may be YAML for the OpenAPI spec.
+
 .. code-block:: python
 
     from flask import Flask
@@ -108,6 +111,59 @@ Documentation
 
 For documentation for a specific plugin, see its module docstring.
 
+Integration with Sphinx' autodoc
+================================
+
+When using Sphinx' autodoc to generate documentation, the YAML in the
+docstrings may yield errors like *"WARNING: Unexpected indentation"* and
+*"WARNING: Block quote ends without a blank line; unexpected unindent"*,
+or fail with *"LaTeX Error: Too deeply nested"*.
+
+To mitigate that one can make autodoc find the YAML just like apispec's
+``load_yaml_from_docstring``, and remove or format it. In Sphinx's
+``conf.py`` add:
+
+.. code-block:: python
+
+    def handle_apispec_in_docstring(app, what, name, obj, options, lines):
+        """
+        Handle embedded OpenAPI YAML fragments, as optionally defined
+        in a docstring after a line starting with 3 dashes.
+        """
+        for index, line in enumerate(lines):
+            line = line.strip()
+            if line.startswith("---"):
+                idx = index
+                break
+        else:
+            return
+
+        # Discard the separator line and the (assumed) YAML
+        del lines[idx:]
+
+
+    def setup(app):
+        app.connect('autodoc-process-docstring', handle_apispec_in_docstring)
+
+
+Or, to preserve and format the YAML:
+
+.. code-block:: python
+
+    def handle_apispec_in_docstring(app, what, name, obj, options, lines):
+
+        ...
+
+        # Discard the separator line, indent the (assumed) YAML, and
+        # prepend reST instructions
+        del lines[idx]
+        lines[idx:] = map(lambda s: "    {}".format(s), lines[idx:])
+        lines[idx:idx] = textwrap.dedent("""
+            This defines the following OpenAPI fragment:
+
+            .. code-block:: yaml
+
+            """).splitlines()
 
 Development
 ===========
