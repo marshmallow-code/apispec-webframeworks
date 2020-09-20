@@ -143,7 +143,7 @@ To mitigate that one can make autodoc find the YAML just like apispec's
 
 
     def setup(app):
-        app.connect("autodoc-process-docstring', handle_apispec_in_docstring)
+        app.connect("autodoc-process-docstring", handle_apispec_in_docstring)
 
 
 Or, to preserve and format the YAML:
