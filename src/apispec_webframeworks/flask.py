@@ -107,8 +107,12 @@ class FlaskPlugin(BasePlugin):
         rule = app.url_map._rules_by_endpoint[endpoint][0]
         return rule
 
-    def path_helper(self, operations, *, view, app=None, **kwargs):
+    def path_helper(self, operations, *, view=None, app=None, **kwargs):
         """Path helper that allows passing a Flask view function."""
+        
+        if not view:
+            return
+        
         rule = self._rule_for_view(view, app=app)
         operations.update(yaml_utils.load_operations_from_docstring(view.__doc__))
         if hasattr(view, "view_class") and issubclass(view.view_class, MethodView):
