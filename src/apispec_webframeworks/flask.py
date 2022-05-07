@@ -66,10 +66,8 @@ Passing a method view function::
 
 
 """
-from __future__ import annotations
-
 import re
-from typing import Any, Callable
+from typing import Any, Callable, List, Optional
 
 from flask import current_app, Flask
 from flask.views import MethodView
@@ -95,7 +93,7 @@ class FlaskPlugin(BasePlugin):
         return RE_URL.sub(r"{\1}", path)
 
     @staticmethod
-    def _rule_for_view(view: Callable, app: Flask | None = None) -> Rule:
+    def _rule_for_view(view: Callable, app: Optional[Flask] = None) -> Rule:
         if app is None:
             app = current_app
 
@@ -113,14 +111,14 @@ class FlaskPlugin(BasePlugin):
 
     def path_helper(
         self,
-        path: str | None = None,
-        operations: dict | None = None,
-        parameters: list[dict] | None = None,
+        path: Optional[str] = None,
+        operations: Optional[dict] = None,
+        parameters: Optional[List[dict]] = None,
         *,
-        view: Any | None = None,
-        app: Flask | None = None,
+        view: Optional[Any] = None,
+        app: Optional[Flask] = None,
         **kwargs: Any,
-    ) -> str | None:
+    ) -> Optional[str]:
         """Path helper that allows passing a Flask view function."""
         assert view and operations
         assert view.__doc__, "expect that a function has a docstring"

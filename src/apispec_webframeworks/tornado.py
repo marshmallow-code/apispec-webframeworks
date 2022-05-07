@@ -28,10 +28,8 @@ object to `path`.
     #                                         'schema': {'$ref': '#/definitions/Greeting'}}}}}}
 
 """
-from __future__ import annotations
-
 import inspect
-from typing import Any, Callable, Iterator
+from typing import Any, Callable, Dict, Iterator, List, Optional, Union
 from tornado.web import URLSpec, RequestHandler
 
 from apispec import BasePlugin, yaml_utils
@@ -44,7 +42,7 @@ class TornadoPlugin(BasePlugin):
     @staticmethod
     def _operations_from_methods(
         handler_class: RequestHandler,
-    ) -> Iterator[dict[str, dict]]:
+    ) -> Iterator[Dict[str, dict]]:
         """Generator of operations described in handler's http methods
 
         :param handler_class:
@@ -102,13 +100,13 @@ class TornadoPlugin(BasePlugin):
 
     def path_helper(
         self,
-        path: str | None = None,
-        operations: dict | None = None,
-        parameters: list[dict] | None = None,
+        path: Optional[str] = None,
+        operations: Optional[dict] = None,
+        parameters: Optional[List[dict]] = None,
         *,
-        urlspec: URLSpec | tuple | None = None,
+        urlspec: Optional[Union[URLSpec, tuple]]  = None,
         **kwargs: Any,
-    ) -> str | None:
+    ) -> Optional[str]:
         """Path helper that allows passing a Tornado URLSpec or tuple."""
         assert operations
 

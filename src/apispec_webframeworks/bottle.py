@@ -20,10 +20,8 @@ to `path`.
     print(spec.to_dict()['paths'])
     # {'/gists/{gist_id}': {'get': {'responses': {200: {'schema': {'$ref': '#/definitions/Gist'}}}}}}
 """
-from __future__ import annotations
-
 import re
-from typing import Any
+from typing import Any, List, Optional
 
 from bottle import default_app, Bottle
 
@@ -56,13 +54,13 @@ class BottlePlugin(BasePlugin):
 
     def path_helper(
         self,
-        path: str | None = None,
-        operations: dict | None = None,
-        parameters: list[dict] | None = None,
+        path: Optional[str] = None,
+        operations: Optional[dict] = None,
+        parameters: Optional[List[dict]] = None,
         *,
-        view: Any | None = None,
+        view: Optional[Any] = None,
         **kwargs: Any,
-    ) -> str | None:
+    ) -> Optional[str]:
         """Path helper that allows passing a bottle view function."""
         assert operations
         assert view.__doc__, "expect that a function has a docstring"
