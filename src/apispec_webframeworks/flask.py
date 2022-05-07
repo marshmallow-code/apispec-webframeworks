@@ -66,10 +66,14 @@ Passing a method view function::
 
 
 """
-import re
+from __future__ import annotations
 
-from flask import current_app
+import re
+from typing import Any, Callable
+
+from flask import current_app, Flask
 from flask.views import MethodView
+from werkzeug.routing import Rule
 
 from apispec import BasePlugin, yaml_utils
 from apispec.exceptions import APISpecError
@@ -83,7 +87,7 @@ class FlaskPlugin(BasePlugin):
     """APISpec plugin for Flask"""
 
     @staticmethod
-    def flaskpath2openapi(path):
+    def flaskpath2openapi(path: str) -> str:
         """Convert a Flask URL rule to an OpenAPI-compliant path.
 
         :param str path: Flask path template.
@@ -91,7 +95,7 @@ class FlaskPlugin(BasePlugin):
         return RE_URL.sub(r"{\1}", path)
 
     @staticmethod
-    def _rule_for_view(view, app=None):
+    def _rule_for_view(view: Callable, app: Flask | None = None) -> Rule:
         if app is None:
             app = current_app
 
@@ -107,13 +111,25 @@ class FlaskPlugin(BasePlugin):
         rule = app.url_map._rules_by_endpoint[endpoint][0]
         return rule
 
-    def path_helper(self, operations, *, view, app=None, **kwargs):
+    def path_helper(
+        self,
+        path: str | None = None,
+        operations: dict | None = None,
+        parameters: list[dict] | None = None,
+        *,
+        view: Any | None = None,
+        app: Flask | None = None,
+        **kwargs: Any,
+    ) -> str | None:
         """Path helper that allows passing a Flask view function."""
+        assert view and operations
+        assert view.__doc__, "expect that a function has a docstring"
+
         rule = self._rule_for_view(view, app=app)
         operations.update(yaml_utils.load_operations_from_docstring(view.__doc__))
         if hasattr(view, "view_class") and issubclass(view.view_class, MethodView):
             for method in view.methods:
-                if method in rule.methods:
+                if method in rule.methods:  # type:ignore
                     method_name = method.lower()
                     method = getattr(view.view_class, method_name)
                     operations[method_name] = yaml_utils.load_yaml_from_docstring(

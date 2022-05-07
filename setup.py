@@ -25,6 +25,7 @@ setup(
     packages=find_packages("src"),
     package_dir={"": "src"},
     include_package_data=True,
+    package_data={"apispec_webframeworks": ["py.typed"]},
     install_requires=["apispec[yaml]>=2.0.0"],
     python_requires=">=3.6",
     extras_require=EXTRAS_REQUIRE,

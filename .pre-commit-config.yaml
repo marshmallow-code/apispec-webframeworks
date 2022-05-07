@@ -5,7 +5,7 @@ repos:
   - id: pyupgrade
     args: [--py3-plus]
 - repo: https://github.com/python/black
-  rev: 22.1.0
+  rev: 22.3.0
   hooks:
   - id: black
     language_version: python3
@@ -19,3 +19,9 @@ repos:
   hooks:
   - id: blacken-docs
     additional_dependencies: [black==22.1.0]
+- repo: https://github.com/pre-commit/mirrors-mypy
+  rev: v0.950
+  hooks:
+  - id: mypy
+    files: ^src/apispec_webframeworks/
+    additional_dependencies: ["Flask==2.0.1", "tornado", "bottle", "apispec[yaml]>=5.2.1", types-setuptools]

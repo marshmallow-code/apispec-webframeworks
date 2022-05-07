@@ -28,8 +28,11 @@ object to `path`.
     #                                         'schema': {'$ref': '#/definitions/Greeting'}}}}}}
 
 """
+from __future__ import annotations
+
 import inspect
-from tornado.web import URLSpec
+from typing import Any, Callable, Iterator
+from tornado.web import URLSpec, RequestHandler
 
 from apispec import BasePlugin, yaml_utils
 from apispec.exceptions import APISpecError
@@ -39,7 +42,9 @@ class TornadoPlugin(BasePlugin):
     """APISpec plugin for Tornado"""
 
     @staticmethod
-    def _operations_from_methods(handler_class):
+    def _operations_from_methods(
+        handler_class: RequestHandler,
+    ) -> Iterator[dict[str, dict]]:
         """Generator of operations described in handler's http methods
 
         :param handler_class:
@@ -53,7 +58,7 @@ class TornadoPlugin(BasePlugin):
                 yield operation
 
     @staticmethod
-    def tornadopath2openapi(urlspec, method):
+    def tornadopath2openapi(urlspec: URLSpec, method: Callable) -> str:
         """Convert Tornado URLSpec to OpenAPI-compliant path.
 
         :param urlspec:
@@ -62,11 +67,11 @@ class TornadoPlugin(BasePlugin):
         :type method: function
         """
         try:
-            regex = urlspec.matcher.regex
-            path_tpl = urlspec.matcher._path
+            regex = urlspec.matcher.regex  # type:ignore
+            path_tpl = urlspec.matcher._path  # type:ignore
         except AttributeError:  # tornado<4.5
             regex = urlspec.regex
-            path_tpl = urlspec._path
+            path_tpl = urlspec._path  # type:ignore
         if regex.groups:
             if regex.groupindex:
                 # urlspec path uses named groups
@@ -86,18 +91,29 @@ class TornadoPlugin(BasePlugin):
         return path
 
     @staticmethod
-    def _extensions_from_handler(handler_class):
+    def _extensions_from_handler(handler_class: RequestHandler) -> dict:
         """Returns extensions dict from handler docstring
 
         :param handler_class:
         :type handler_class: RequestHandler descendant
         """
+        assert handler_class.__doc__, "expect that a function has a docstring"
         return yaml_utils.load_yaml_from_docstring(handler_class.__doc__)
 
-    def path_helper(self, operations, *, urlspec, **kwargs):
+    def path_helper(
+        self,
+        path: str | None = None,
+        operations: dict | None = None,
+        parameters: list[dict] | None = None,
+        *,
+        urlspec: URLSpec | tuple | None = None,
+        **kwargs: Any,
+    ) -> str | None:
         """Path helper that allows passing a Tornado URLSpec or tuple."""
+        assert operations
+
         if not isinstance(urlspec, URLSpec):
-            urlspec = URLSpec(*urlspec)
+            urlspec = URLSpec(*urlspec)  # type:ignore
         for operation in self._operations_from_methods(urlspec.handler_class):
             operations.update(operation)
         if not operations:
