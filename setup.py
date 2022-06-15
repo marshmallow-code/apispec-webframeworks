@@ -1,8 +1,8 @@
 from setuptools import setup, find_packages
 
-VERSION = "0.5.2"
+VERSION = "0.5.3"
 EXTRAS_REQUIRE = {
-    "tests": ["pytest", "mock", "Flask==2.0.1", "tornado", "bottle==0.12.19"],
+    "tests": ["pytest", "mock", "Flask==2.0.1", "tornado", "bottle==0.12.21"],
     "lint": ["flake8==3.9.2", "flake8-bugbear==21.4.3", "pre-commit~=2.4"],
 }
 EXTRAS_REQUIRE["dev"] = EXTRAS_REQUIRE["tests"] + EXTRAS_REQUIRE["lint"] + ["tox"]
