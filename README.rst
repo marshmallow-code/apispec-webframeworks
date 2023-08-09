@@ -6,10 +6,6 @@ apispec-webframeworks
     :target: https://pypi.org/project/apispec-webframeworks/
     :alt: PyPI version
 
-.. image:: https://dev.azure.com/sloria/sloria/_apis/build/status/marshmallow-code.apispec-webframeworks?branchName=master
-    :target: https://dev.azure.com/sloria/sloria/_build/latest?definitionId=9&branchName=master
-    :alt: Build status
-
 .. image:: https://badgen.net/badge/marshmallow/2,3?list=1
     :target: https://marshmallow.readthedocs.io/en/latest/upgrading.html
     :alt: marshmallow 2/3 compatible
