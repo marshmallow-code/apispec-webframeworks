@@ -4,7 +4,9 @@ on:
     branches: ["master"]
     tags: ["*"]
   pull_request:
-
+  # Run builds nightly to catch incompatibilities with new marshmallow releases
+  schedule:
+  - cron: "0 0 * * *"
 jobs:
   tests:
     name: ${{ matrix.name }}
