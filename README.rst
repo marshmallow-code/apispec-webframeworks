@@ -6,6 +6,10 @@ apispec-webframeworks
     :target: https://pypi.org/project/apispec-webframeworks/
     :alt: PyPI version
 
+.. image:: https://github.com/marshmallow-code/apispec-webframeworks/actions/workflows/build-release.yml/badge.svg
+    :target: https://github.com/marshmallow-code/apispec-webframeworks/actions/workflows/build-release.yml
+    :alt: Build status
+
 .. image:: https://badgen.net/badge/marshmallow/2,3?list=1
     :target: https://marshmallow.readthedocs.io/en/latest/upgrading.html
     :alt: marshmallow 2/3 compatible
