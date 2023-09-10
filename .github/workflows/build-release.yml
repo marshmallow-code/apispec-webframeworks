@@ -16,9 +16,7 @@ jobs:
       matrix:
         include:
           - {name: '3.7', python: '3.7', tox: py37}
-          - {name: '3.8', python: '3.8', tox: py38}
-          - {name: '3.9', python: '3.9', tox: py39}
-          - {name: '3.9-apispecdev', python: '3.9', tox: py39-apispecdev}
+          - {name: '3.11-apispecdev', python: '3.11', tox: py311-apispecdev}
     steps:
       - uses: actions/checkout@v3.1.0
       - uses: actions/setup-python@v4.3.0
