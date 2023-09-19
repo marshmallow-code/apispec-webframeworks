@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 VERSION = "0.5.2"
 EXTRAS_REQUIRE = {
-    "tests": ["pytest", "mock", "Flask==2.0.1", "tornado", "bottle==0.12.19"],
+    "tests": ["pytest", "mock", "Flask==2.0.1", "tornado", "bottle==0.12.25"],
     "lint": ["flake8==3.9.2", "flake8-bugbear==21.4.3", "pre-commit~=2.4"],
 }
 EXTRAS_REQUIRE["dev"] = EXTRAS_REQUIRE["tests"] + EXTRAS_REQUIRE["lint"] + ["tox"]
@@ -26,7 +26,7 @@ setup(
     package_dir={"": "src"},
     include_package_data=True,
     install_requires=["apispec[yaml]>=2.0.0"],
-    python_requires=">=3.6",
+    python_requires=">=3.8",
     extras_require=EXTRAS_REQUIRE,
     license="MIT",
     zip_safe=False,
@@ -51,10 +51,10 @@ setup(
         "License :: OSI Approved :: MIT License",
         "Natural Language :: English",
         "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.6",
-        "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
+        "Programming Language :: Python :: 3.10",
+        "Programming Language :: Python :: 3.11",
     ],
     test_suite="tests",
     project_urls={
