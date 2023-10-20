@@ -104,7 +104,7 @@ class TornadoPlugin(BasePlugin):
         operations: Optional[dict] = None,
         parameters: Optional[List[dict]] = None,
         *,
-        urlspec: Optional[Union[URLSpec, tuple]]  = None,
+        urlspec: Optional[Union[URLSpec, tuple]] = None,
         **kwargs: Any,
     ) -> Optional[str]:
         """Path helper that allows passing a Tornado URLSpec or tuple."""
