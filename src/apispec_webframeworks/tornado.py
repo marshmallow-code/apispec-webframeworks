@@ -50,7 +50,8 @@ class TornadoPlugin(BasePlugin):
         """
         for httpmethod in yaml_utils.PATH_KEYS:
             method = getattr(handler_class, httpmethod)
-            operation_data = yaml_utils.load_yaml_from_docstring(method.__doc__)
+            docstring = method.__doc__ or ""
+            operation_data = yaml_utils.load_yaml_from_docstring(docstring)
             if operation_data:
                 operation = {httpmethod: operation_data}
                 yield operation
@@ -95,8 +96,8 @@ class TornadoPlugin(BasePlugin):
         :param handler_class:
         :type handler_class: RequestHandler descendant
         """
-        assert handler_class.__doc__, "expect that a function has a docstring"
-        return yaml_utils.load_yaml_from_docstring(handler_class.__doc__)
+        docstring = handler_class.__doc__ or ""
+        return yaml_utils.load_yaml_from_docstring(docstring)
 
     def path_helper(
         self,
@@ -108,7 +109,7 @@ class TornadoPlugin(BasePlugin):
         **kwargs: Any,
     ) -> Optional[str]:
         """Path helper that allows passing a Tornado URLSpec or tuple."""
-        assert operations
+        assert operations is not None
 
         if not isinstance(urlspec, URLSpec):
             urlspec = URLSpec(*urlspec)  # type:ignore

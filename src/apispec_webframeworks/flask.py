@@ -120,17 +120,19 @@ class FlaskPlugin(BasePlugin):
         **kwargs: Any,
     ) -> Optional[str]:
         """Path helper that allows passing a Flask view function."""
-        assert view and operations
-        assert view.__doc__, "expect that a function has a docstring"
+        assert view is not None
+        assert operations is not None
 
         rule = self._rule_for_view(view, app=app)
-        operations.update(yaml_utils.load_operations_from_docstring(view.__doc__))
+        view_docstring = view.__doc__ or ""
+        operations.update(yaml_utils.load_operations_from_docstring(view_docstring))
         if hasattr(view, "view_class") and issubclass(view.view_class, MethodView):
             for method in view.methods:
                 if method in rule.methods:  # type:ignore
                     method_name = method.lower()
                     method = getattr(view.view_class, method_name)
+                    method_docstring = method.__doc__ or ""
                     operations[method_name] = yaml_utils.load_yaml_from_docstring(
-                        method.__doc__
+                        method_docstring
                     )
         return self.flaskpath2openapi(rule.rule)

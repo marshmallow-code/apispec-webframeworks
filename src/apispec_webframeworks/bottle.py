@@ -62,9 +62,10 @@ class BottlePlugin(BasePlugin):
         **kwargs: Any,
     ) -> Optional[str]:
         """Path helper that allows passing a bottle view function."""
-        assert operations
-        assert view.__doc__, "expect that a function has a docstring"
-        operations.update(yaml_utils.load_operations_from_docstring(view.__doc__))
+        assert operations is not None
+
+        docstring = view.__doc__ or ""
+        operations.update(yaml_utils.load_operations_from_docstring(docstring))
         app = kwargs.get("app", _default_app)
         route = self._route_for_view(app, view)
         return self.bottle_path_to_openapi(route.rule)
