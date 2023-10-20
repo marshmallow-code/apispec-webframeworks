@@ -67,7 +67,7 @@ Passing a method view function::
 
 """
 import re
-from typing import Any, Callable, List, Optional
+from typing import TYPE_CHECKING, Any, Callable, List, Optional, Union
 
 from flask import current_app, Flask
 from flask.views import MethodView
@@ -75,6 +75,9 @@ from werkzeug.routing import Rule
 
 from apispec import BasePlugin, yaml_utils
 from apispec.exceptions import APISpecError
+
+if TYPE_CHECKING:
+    from flask.typing import RouteCallable
 
 
 # from flask-restplus
@@ -93,7 +96,9 @@ class FlaskPlugin(BasePlugin):
         return RE_URL.sub(r"{\1}", path)
 
     @staticmethod
-    def _rule_for_view(view: Callable, app: Optional[Flask] = None) -> Rule:
+    def _rule_for_view(
+        view: Union[Callable[..., Any], "RouteCallable"], app: Optional[Flask] = None
+    ) -> Rule:
         if app is None:
             app = current_app
 
@@ -115,7 +120,7 @@ class FlaskPlugin(BasePlugin):
         operations: Optional[dict] = None,
         parameters: Optional[List[dict]] = None,
         *,
-        view: Optional[Any] = None,
+        view: Optional[Union[Callable[..., Any], "RouteCallable"]] = None,
         app: Optional[Flask] = None,
         **kwargs: Any,
     ) -> Optional[str]:
@@ -127,8 +132,9 @@ class FlaskPlugin(BasePlugin):
         view_docstring = view.__doc__ or ""
         operations.update(yaml_utils.load_operations_from_docstring(view_docstring))
         if hasattr(view, "view_class") and issubclass(view.view_class, MethodView):
-            for method in view.methods:
-                if method in rule.methods:  # type:ignore
+            # The methods attribute is dynamically added, which is supported by mypy
+            for method in view.methods:  # type:ignore[union-attr]
+                if rule.methods and method in rule.methods:
                     method_name = method.lower()
                     method = getattr(view.view_class, method_name)
                     method_docstring = method.__doc__ or ""

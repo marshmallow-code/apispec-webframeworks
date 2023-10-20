@@ -24,4 +24,4 @@ repos:
   hooks:
   - id: mypy
     files: ^src/apispec_webframeworks/
-    additional_dependencies: ["Flask==2.0.1", "tornado", "bottle", "apispec[yaml]>=5.2.1", types-setuptools]
+    additional_dependencies: ["Flask==2.3.3", "tornado>=6", "bottle", "apispec[yaml]>=5.2.1", types-setuptools]

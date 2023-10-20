@@ -21,9 +21,9 @@ to `path`.
     # {'/gists/{gist_id}': {'get': {'responses': {200: {'schema': {'$ref': '#/definitions/Gist'}}}}}}
 """
 import re
-from typing import Any, List, Optional
+from typing import Any, Callable, List, Optional
 
-from bottle import default_app, Bottle
+from bottle import default_app, Bottle, Route
 
 from apispec import BasePlugin, yaml_utils
 from apispec.exceptions import APISpecError
@@ -42,7 +42,7 @@ class BottlePlugin(BasePlugin):
         return RE_URL.sub(r"{\1}", path)
 
     @staticmethod
-    def _route_for_view(app: Bottle, view):
+    def _route_for_view(app: Bottle, view: Callable[..., Any]) -> Route:
         endpoint = None
         for route in app.routes:
             if route.callback == view:
@@ -63,6 +63,7 @@ class BottlePlugin(BasePlugin):
     ) -> Optional[str]:
         """Path helper that allows passing a bottle view function."""
         assert operations is not None
+        assert view is not None
 
         docstring = view.__doc__ or ""
         operations.update(yaml_utils.load_operations_from_docstring(docstring))

@@ -29,7 +29,8 @@ object to `path`.
 
 """
 import inspect
-from typing import Any, Callable, Dict, Iterator, List, Optional, Union
+from typing import Any, Callable, Dict, Iterator, List, Optional, Union, cast
+from tornado.routing import PathMatches
 from tornado.web import URLSpec, RequestHandler
 
 from apispec import BasePlugin, yaml_utils
@@ -65,12 +66,9 @@ class TornadoPlugin(BasePlugin):
         :param method: Handler http method
         :type method: function
         """
-        try:
-            regex = urlspec.matcher.regex  # type:ignore
-            path_tpl = urlspec.matcher._path  # type:ignore
-        except AttributeError:  # tornado<4.5
-            regex = urlspec.regex
-            path_tpl = urlspec._path  # type:ignore
+        matcher = cast(PathMatches, urlspec.matcher)
+        regex = matcher.regex
+        path_tpl = cast(str, matcher._path)
         if regex.groups:
             if regex.groupindex:
                 # urlspec path uses named groups
@@ -110,9 +108,10 @@ class TornadoPlugin(BasePlugin):
     ) -> Optional[str]:
         """Path helper that allows passing a Tornado URLSpec or tuple."""
         assert operations is not None
+        assert urlspec is not None
 
         if not isinstance(urlspec, URLSpec):
-            urlspec = URLSpec(*urlspec)  # type:ignore
+            urlspec = URLSpec(*urlspec)
         for operation in self._operations_from_methods(urlspec.handler_class):
             operations.update(operation)
         if not operations:
