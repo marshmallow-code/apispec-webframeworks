@@ -29,7 +29,9 @@ object to `path`.
 
 """
 import inspect
-from tornado.web import URLSpec
+from typing import Any, Callable, Dict, Iterator, List, Optional, Union, cast
+from tornado.routing import PathMatches
+from tornado.web import URLSpec, RequestHandler
 
 from apispec import BasePlugin, yaml_utils
 from apispec.exceptions import APISpecError
@@ -39,7 +41,9 @@ class TornadoPlugin(BasePlugin):
     """APISpec plugin for Tornado"""
 
     @staticmethod
-    def _operations_from_methods(handler_class):
+    def _operations_from_methods(
+        handler_class: RequestHandler,
+    ) -> Iterator[Dict[str, dict]]:
         """Generator of operations described in handler's http methods
 
         :param handler_class:
@@ -47,13 +51,14 @@ class TornadoPlugin(BasePlugin):
         """
         for httpmethod in yaml_utils.PATH_KEYS:
             method = getattr(handler_class, httpmethod)
-            operation_data = yaml_utils.load_yaml_from_docstring(method.__doc__)
+            docstring = method.__doc__ or ""
+            operation_data = yaml_utils.load_yaml_from_docstring(docstring)
             if operation_data:
                 operation = {httpmethod: operation_data}
                 yield operation
 
     @staticmethod
-    def tornadopath2openapi(urlspec, method):
+    def tornadopath2openapi(urlspec: URLSpec, method: Callable) -> str:
         """Convert Tornado URLSpec to OpenAPI-compliant path.
 
         :param urlspec:
@@ -61,12 +66,9 @@ class TornadoPlugin(BasePlugin):
         :param method: Handler http method
         :type method: function
         """
-        try:
-            regex = urlspec.matcher.regex
-            path_tpl = urlspec.matcher._path
-        except AttributeError:  # tornado<4.5
-            regex = urlspec.regex
-            path_tpl = urlspec._path
+        matcher = cast(PathMatches, urlspec.matcher)
+        regex = matcher.regex
+        path_tpl = cast(str, matcher._path)
         if regex.groups:
             if regex.groupindex:
                 # urlspec path uses named groups
@@ -86,16 +88,28 @@ class TornadoPlugin(BasePlugin):
         return path
 
     @staticmethod
-    def _extensions_from_handler(handler_class):
+    def _extensions_from_handler(handler_class: RequestHandler) -> dict:
         """Returns extensions dict from handler docstring
 
         :param handler_class:
         :type handler_class: RequestHandler descendant
         """
-        return yaml_utils.load_yaml_from_docstring(handler_class.__doc__)
+        docstring = handler_class.__doc__ or ""
+        return yaml_utils.load_yaml_from_docstring(docstring)
 
-    def path_helper(self, operations, *, urlspec, **kwargs):
+    def path_helper(
+        self,
+        path: Optional[str] = None,
+        operations: Optional[dict] = None,
+        parameters: Optional[List[dict]] = None,
+        *,
+        urlspec: Optional[Union[URLSpec, tuple]] = None,
+        **kwargs: Any,
+    ) -> Optional[str]:
         """Path helper that allows passing a Tornado URLSpec or tuple."""
+        assert operations is not None
+        assert urlspec is not None
+
         if not isinstance(urlspec, URLSpec):
             urlspec = URLSpec(*urlspec)
         for operation in self._operations_from_methods(urlspec.handler_class):

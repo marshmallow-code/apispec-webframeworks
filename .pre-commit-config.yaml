@@ -19,3 +19,9 @@ repos:
   hooks:
   - id: blacken-docs
     additional_dependencies: [black==22.1.0]
+- repo: https://github.com/pre-commit/mirrors-mypy
+  rev: v1.4.1
+  hooks:
+  - id: mypy
+    files: ^src/apispec_webframeworks/
+    additional_dependencies: ["Flask==2.3.3", "tornado>=6", "bottle", "apispec[yaml]>=5.2.1", types-setuptools]

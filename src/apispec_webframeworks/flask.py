@@ -67,12 +67,17 @@ Passing a method view function::
 
 """
 import re
+from typing import TYPE_CHECKING, Any, Callable, List, Optional, Union
 
-from flask import current_app
+from flask import current_app, Flask
 from flask.views import MethodView
+from werkzeug.routing import Rule
 
 from apispec import BasePlugin, yaml_utils
 from apispec.exceptions import APISpecError
+
+if TYPE_CHECKING:
+    from flask.typing import RouteCallable
 
 
 # from flask-restplus
@@ -83,7 +88,7 @@ class FlaskPlugin(BasePlugin):
     """APISpec plugin for Flask"""
 
     @staticmethod
-    def flaskpath2openapi(path):
+    def flaskpath2openapi(path: str) -> str:
         """Convert a Flask URL rule to an OpenAPI-compliant path.
 
         :param str path: Flask path template.
@@ -91,7 +96,9 @@ class FlaskPlugin(BasePlugin):
         return RE_URL.sub(r"{\1}", path)
 
     @staticmethod
-    def _rule_for_view(view, app=None):
+    def _rule_for_view(
+        view: Union[Callable[..., Any], "RouteCallable"], app: Optional[Flask] = None
+    ) -> Rule:
         if app is None:
             app = current_app
 
@@ -107,16 +114,31 @@ class FlaskPlugin(BasePlugin):
         rule = app.url_map._rules_by_endpoint[endpoint][0]
         return rule
 
-    def path_helper(self, operations, *, view, app=None, **kwargs):
+    def path_helper(
+        self,
+        path: Optional[str] = None,
+        operations: Optional[dict] = None,
+        parameters: Optional[List[dict]] = None,
+        *,
+        view: Optional[Union[Callable[..., Any], "RouteCallable"]] = None,
+        app: Optional[Flask] = None,
+        **kwargs: Any,
+    ) -> Optional[str]:
         """Path helper that allows passing a Flask view function."""
+        assert view is not None
+        assert operations is not None
+
         rule = self._rule_for_view(view, app=app)
-        operations.update(yaml_utils.load_operations_from_docstring(view.__doc__))
+        view_docstring = view.__doc__ or ""
+        operations.update(yaml_utils.load_operations_from_docstring(view_docstring))
         if hasattr(view, "view_class") and issubclass(view.view_class, MethodView):
-            for method in view.methods:
-                if method in rule.methods:
+            # The methods attribute is dynamically added, which is supported by mypy
+            for method in view.methods:  # type:ignore[union-attr]
+                if rule.methods and method in rule.methods:
                     method_name = method.lower()
                     method = getattr(view.view_class, method_name)
+                    method_docstring = method.__doc__ or ""
                     operations[method_name] = yaml_utils.load_yaml_from_docstring(
-                        method.__doc__
+                        method_docstring
                     )
         return self.flaskpath2openapi(rule.rule)
