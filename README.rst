@@ -10,13 +10,9 @@ apispec-webframeworks
     :target: https://github.com/marshmallow-code/apispec-webframeworks/actions/workflows/build-release.yml
     :alt: Build status
 
-.. image:: https://badgen.net/badge/marshmallow/2,3?list=1
+.. image:: https://badgen.net/badge/marshmallow/3?
     :target: https://marshmallow.readthedocs.io/en/latest/upgrading.html
-    :alt: marshmallow 2/3 compatible
-
-.. image:: https://badgen.net/badge/code%20style/black/000
-    :target: https://github.com/ambv/black
-    :alt: code style: black
+    :alt: marshmallow 3 compatible
 
 `apispec <https://github.com/marshmallow-code/apispec>`_ plugins for
 integrating with various web frameworks.
