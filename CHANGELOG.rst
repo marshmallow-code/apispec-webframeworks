@@ -1,7 +1,7 @@
 Changelog
 ---------
 
-0.6.0 (unreleased)
+1.0.0 (2024-01-17)
 ++++++++++++++++++
 
 * Fix a warning with setuptools.

@@ -1,12 +1,11 @@
 [project]
 name = "apispec-webframeworks"
-version = "0.5.2"
+version = "1.0.0"
 description = "Web framework plugins for apispec."
 readme = "README.rst"
 license = { file = "LICENSE" }
 maintainers = [{ name = "Steven Loria", email = "sloria1@gmail.com" }]
 classifiers = [
-  "Development Status :: 4 - Beta",
   "Intended Audience :: Developers",
   "License :: OSI Approved :: MIT License",
   "Natural Language :: English",
