@@ -1,5 +1,3 @@
-import pkg_resources
+from importlib.metadata import distribution
 
-__version__ = str(
-    pkg_resources.get_distribution("apispec-webframeworks").parsed_version
-)
+__version__ = str(distribution("apispec-webframeworks").version)
