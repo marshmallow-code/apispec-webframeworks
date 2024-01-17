@@ -1,9 +1,8 @@
 import pytest
-
+from apispec import APISpec
 from flask import Flask
 from flask.views import MethodView
 
-from apispec import APISpec
 from apispec_webframeworks.flask import FlaskPlugin
 
 from .utils import get_paths

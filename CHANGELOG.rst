@@ -1,12 +1,14 @@
 Changelog
 ---------
 
-0.5.3 (unreleased)
+0.6.0 (unreleased)
 ++++++++++++++++++
 
 * Fix a warning with setuptools.
   Thanks :user:`felixonmars` for the catch and patch.
-* Test against Python 3.9.
+* Support Python 3.8-3.12. Older versions are no longer supported.
+* *Backwards-incompatible*: Remove ``apispec_webframeworks.__version__`` attribute.
+  Use ``importlib.metadata.version("apispec-webframeworks")`` instead.
 
 0.5.2 (2019-11-21)
 ++++++++++++++++++

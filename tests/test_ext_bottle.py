@@ -1,8 +1,7 @@
 import pytest
-
+from apispec import APISpec
 from bottle import route
 
-from apispec import APISpec
 from apispec_webframeworks.bottle import BottlePlugin
 
 from .utils import get_paths

@@ -27,14 +27,14 @@ object to `path`.
     #                                                     'client',
     #                                         'schema': {'$ref': '#/definitions/Greeting'}}}}}}
 
-"""
+"""  # noqa: E501
 import inspect
 from typing import Any, Callable, Dict, Iterator, List, Optional, Union, cast
-from tornado.routing import PathMatches
-from tornado.web import URLSpec, RequestHandler
 
 from apispec import BasePlugin, yaml_utils
 from apispec.exceptions import APISpecError
+from tornado.routing import PathMatches
+from tornado.web import RequestHandler, URLSpec
 
 
 class TornadoPlugin(BasePlugin):
@@ -73,7 +73,8 @@ class TornadoPlugin(BasePlugin):
             if regex.groupindex:
                 # urlspec path uses named groups
                 sorted_pairs = sorted(
-                    ((k, v) for k, v in regex.groupindex.items()), key=lambda kv: kv[1]
+                    ((k, v) for k, v in regex.groupindex.items()),
+                    key=lambda kv: kv[1],
                 )
                 args = [pair[0] for pair in sorted_pairs]
             else:
@@ -115,7 +116,10 @@ class TornadoPlugin(BasePlugin):
         for operation in self._operations_from_methods(urlspec.handler_class):
             operations.update(operation)
         if not operations:
-            raise APISpecError(f"Could not find endpoint for urlspec {urlspec}")
-        params_method = getattr(urlspec.handler_class, list(operations.keys())[0])
+            raise APISpecError(f"Could not find endpoint for urlspec {urlspec}")  # noqa: E501
+        params_method = getattr(
+            urlspec.handler_class,
+            list(operations.keys())[0],
+        )
         operations.update(self._extensions_from_handler(urlspec.handler_class))
         return self.tornadopath2openapi(urlspec, params_method)
