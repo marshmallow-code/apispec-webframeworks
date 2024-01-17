@@ -18,7 +18,7 @@ classifiers = [
   "Programming Language :: Python :: 3.12",
 ]
 requires-python = ">=3.8"
-dependencies = ["apispec[yaml]>=2.0.0"]
+dependencies = ["apispec[yaml]>=6.0.0"]
 
 [project.urls]
 Funding = "https://opencollective.com/marshmallow"
@@ -26,7 +26,7 @@ Issues = "https://github.com/marshmallow-code/apispec-webframeworks/issues"
 Source = "https://github.com/marshmallow-code/apispec-webframeworks"
 
 [project.optional-dependencies]
-tests = ["pytest", "Flask==2.3.3", "tornado>=6", "bottle==0.12.25"]
+tests = ["pytest", "Flask>=2.3.3", "tornado>=6", "bottle>=0.12.25"]
 dev = ["apispec-webframeworks[tests]", "tox", "pre-commit~=3.5"]
 
 [build-system]

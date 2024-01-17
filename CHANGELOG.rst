@@ -6,7 +6,7 @@ Changelog
 
 * Fix a warning with setuptools.
   Thanks :user:`felixonmars` for the catch and patch.
-* Support Python 3.8-3.12. Older versions are no longer supported.
+* Support Python 3.8-3.12 and apispec>=6.0.0. Older versions are no longer supported.
 * *Backwards-incompatible*: Remove ``apispec_webframeworks.__version__`` attribute.
   Use ``importlib.metadata.version("apispec-webframeworks")`` instead.
 
