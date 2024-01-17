@@ -65,16 +65,15 @@ Passing a method view function::
     #             'x-extension': 'metadata'}}
 
 
-"""
+"""  # noqa: E501
 import re
 from typing import TYPE_CHECKING, Any, Callable, List, Optional, Union
 
-from flask import current_app, Flask
-from flask.views import MethodView
-from werkzeug.routing import Rule
-
 from apispec import BasePlugin, yaml_utils
 from apispec.exceptions import APISpecError
+from flask import Flask, current_app
+from flask.views import MethodView
+from werkzeug.routing import Rule
 
 if TYPE_CHECKING:
     from flask.typing import RouteCallable
@@ -97,7 +96,8 @@ class FlaskPlugin(BasePlugin):
 
     @staticmethod
     def _rule_for_view(
-        view: Union[Callable[..., Any], "RouteCallable"], app: Optional[Flask] = None
+        view: Union[Callable[..., Any], "RouteCallable"],
+        app: Optional[Flask] = None,
     ) -> Rule:
         if app is None:
             app = current_app
@@ -129,16 +129,17 @@ class FlaskPlugin(BasePlugin):
         assert operations is not None
 
         rule = self._rule_for_view(view, app=app)
-        view_docstring = view.__doc__ or ""
-        operations.update(yaml_utils.load_operations_from_docstring(view_docstring))
-        if hasattr(view, "view_class") and issubclass(view.view_class, MethodView):
-            # The methods attribute is dynamically added, which is supported by mypy
+        view_doc = view.__doc__ or ""
+        doc_operations = yaml_utils.load_operations_from_docstring(view_doc)
+        operations.update(doc_operations)
+        if hasattr(view, "view_class") and issubclass(view.view_class, MethodView):  # noqa: E501
+            # method attribute is dynamically added, which is supported by mypy
             for method in view.methods:  # type:ignore[union-attr]
                 if rule.methods and method in rule.methods:
                     method_name = method.lower()
                     method = getattr(view.view_class, method_name)
                     method_docstring = method.__doc__ or ""
-                    operations[method_name] = yaml_utils.load_yaml_from_docstring(
+                    operations[method_name] = yaml_utils.load_yaml_from_docstring(  # noqa: E501
                         method_docstring
                     )
         return self.flaskpath2openapi(rule.rule)

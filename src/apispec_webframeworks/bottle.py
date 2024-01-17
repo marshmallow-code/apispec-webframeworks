@@ -1,5 +1,5 @@
-"""Bottle plugin. Includes a path helper that allows you to pass a view function
-to `path`.
+"""Bottle plugin. Includes a path helper that allows you to pass
+a view function to `path`.
 ::
 
     from bottle import route, default_app
@@ -19,14 +19,13 @@ to `path`.
     spec.path(view=gist_detail)
     print(spec.to_dict()['paths'])
     # {'/gists/{gist_id}': {'get': {'responses': {200: {'schema': {'$ref': '#/definitions/Gist'}}}}}}
-"""
+"""  # noqa: E501
 import re
 from typing import Any, Callable, List, Optional
 
-from bottle import default_app, Bottle, Route
-
 from apispec import BasePlugin, yaml_utils
 from apispec.exceptions import APISpecError
+from bottle import Bottle, Route, default_app
 
 RE_URL = re.compile(r"<([^<>:]+):?[^>]*>")
 

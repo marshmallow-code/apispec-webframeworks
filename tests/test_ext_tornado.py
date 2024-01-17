@@ -1,9 +1,8 @@
 import pytest
-
-from tornado.web import RequestHandler
 import tornado.gen
-
 from apispec import APISpec
+from tornado.web import RequestHandler
+
 from apispec_webframeworks.tornado import TornadoPlugin
 
 from .utils import get_paths
