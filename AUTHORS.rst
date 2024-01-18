@@ -19,3 +19,4 @@ Contributors (chronological)
 - Marcin Lulek `@ergo <https://github.com/ergo>`_
 - Aaron Ramshaw `@ramshaw888 <https://github.com/ramshaw888>`_
 - PelleK `@elfjes <https://github.com/elfjes>`_
+- kasium `@kasium <https://github.com/kasium>`_

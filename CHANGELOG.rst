@@ -4,8 +4,18 @@ Changelog
 1.0.0 (2024-01-17)
 ++++++++++++++++++
 
+Features:
+
+* Add and publish type information (:issue:`103`, :pr:`104`).
+  Thanks :user:`kasium` for the PR.
+
+Fixes:
+
 * Fix a warning with setuptools.
   Thanks :user:`felixonmars` for the catch and patch.
+
+Other:
+
 * Support Python 3.8-3.12 and apispec>=6.0.0. Older versions are no longer supported.
 * *Backwards-incompatible*: Remove ``apispec_webframeworks.__version__`` attribute.
   Use ``importlib.metadata.version("apispec-webframeworks")`` instead.
