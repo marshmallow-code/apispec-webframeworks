@@ -66,6 +66,7 @@ Passing a method view function::
 
 
 """  # noqa: E501
+
 import re
 from typing import TYPE_CHECKING, Any, Callable, List, Optional, Union
 

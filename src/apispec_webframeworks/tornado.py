@@ -28,6 +28,7 @@ object to `path`.
     #                                         'schema': {'$ref': '#/definitions/Greeting'}}}}}}
 
 """  # noqa: E501
+
 import inspect
 from typing import Any, Callable, Dict, Iterator, List, Optional, Union, cast
 

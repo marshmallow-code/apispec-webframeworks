@@ -20,6 +20,7 @@ a view function to `path`.
     print(spec.to_dict()['paths'])
     # {'/gists/{gist_id}': {'get': {'responses': {200: {'schema': {'$ref': '#/definitions/Gist'}}}}}}
 """  # noqa: E501
+
 import re
 from typing import Any, Callable, List, Optional
 
