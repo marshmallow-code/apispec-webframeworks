@@ -18,7 +18,7 @@ def spec(request):
     )
 
 
-@pytest.yield_fixture()
+@pytest.fixture
 def app():
     _app = Flask(__name__)
     ctx = _app.test_request_context()
