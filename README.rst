@@ -23,6 +23,7 @@ been moved to their own package.
 
 Included plugins:
 
+* ``apispec_webframeworks.aiohttp``
 * ``apispec_webframeworks.bottle``
 * ``apispec_webframeworks.flask``
 * ``apispec_webframeworks.tornado``

@@ -20,3 +20,4 @@ Contributors (chronological)
 - Aaron Ramshaw `@ramshaw888 <https://github.com/ramshaw888>`_
 - PelleK `@elfjes <https://github.com/elfjes>`_
 - kasium `@kasium <https://github.com/kasium>`_
+- Sam Van Den Berge `@S4mw1s3 <https://github.com/S4mw1s3>_`

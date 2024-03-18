@@ -1,6 +1,15 @@
 Changelog
 ---------
 
+1.1.0 (unreleased)
+++++++++++++++++++
+
+Features:
+
+- Add ``apispec_webframeworks.aiohttp`` plugin (:issue:`100`, :pr:`136`).
+  Thanks :user:`S4mw1s3` for the PR.
+
+
 1.0.0 (2024-01-17)
 ++++++++++++++++++
 
