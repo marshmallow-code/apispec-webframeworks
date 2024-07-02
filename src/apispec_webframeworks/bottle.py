@@ -3,8 +3,11 @@ a view function to `path`.
 ::
 
     from bottle import route, default_app
+
     app = default_app()
-    @route('/gists/<gist_id>')
+
+
+    @route("/gists/<gist_id>")
     def gist_detail(gist_id):
         '''Gist detail view.
         ---
@@ -14,10 +17,11 @@ a view function to `path`.
                     schema:
                         $ref: '#/definitions/Gist'
         '''
-        return 'detail for gist {}'.format(gist_id)
+        return "detail for gist {}".format(gist_id)
+
 
     spec.path(view=gist_detail)
-    print(spec.to_dict()['paths'])
+    print(spec.to_dict()["paths"])
     # {'/gists/{gist_id}': {'get': {'responses': {200: {'schema': {'$ref': '#/definitions/Gist'}}}}}}
 """  # noqa: E501
 
