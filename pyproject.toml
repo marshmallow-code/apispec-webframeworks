@@ -45,7 +45,10 @@ include = ["tests/", "CHANGELOG.rst", "tox.ini"]
 src = ["src"]
 fix = true
 show-fixes = true
-show-source = true
+output-format = "full"
+
+[tool.ruff.format]
+docstring-code-format = true
 
 [tool.ruff.lint]
 select = [

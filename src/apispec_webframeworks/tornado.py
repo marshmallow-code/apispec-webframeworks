@@ -6,6 +6,7 @@ object to `path`.
 
     from tornado.web import RequestHandler
 
+
     class HelloHandler(RequestHandler):
         def get(self):
             '''Get a greeting endpoint.
@@ -19,9 +20,10 @@ object to `path`.
             '''
             self.write("hello")
 
-    urlspec = (r'/hello', HelloHandler)
+
+    urlspec = (r"/hello", HelloHandler)
     spec.path(urlspec=urlspec)
-    pprint(spec.to_dict()['paths'])
+    pprint(spec.to_dict()["paths"])
     # {'/hello': {'get': {'description': 'Get a greeting',
     #                     'responses': {200: {'description': 'A greeting to the '
     #                                                     'client',

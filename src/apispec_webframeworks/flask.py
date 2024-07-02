@@ -7,7 +7,8 @@ Passing a view function::
 
     app = Flask(__name__)
 
-    @app.route('/gists/<gist_id>')
+
+    @app.route("/gists/<gist_id>")
     def gist_detail(gist_id):
         '''Gist detail view.
         ---
@@ -18,11 +19,12 @@ Passing a view function::
                     schema:
                         $ref: '#/definitions/Gist'
         '''
-        return 'detail for gist {}'.format(gist_id)
+        return "detail for gist {}".format(gist_id)
+
 
     with app.test_request_context():
         spec.path(view=gist_detail)
-    print(spec.to_dict()['paths'])
+    print(spec.to_dict()["paths"])
     # {'/gists/{gist_id}': {'get': {'responses': {200: {'schema': {'$ref': '#/definitions/Gist'}}}},
     #                  'x-extension': 'metadata'}}
 
@@ -33,25 +35,28 @@ Passing a method view function::
 
     app = Flask(__name__)
 
+
     class GistApi(MethodView):
         '''Gist API.
         ---
         x-extension: metadata
         '''
+
         def get(self):
-           '''Gist view
-           ---
-           responses:
-               200:
-                   schema:
-                       $ref: '#/definitions/Gist'
-           '''
-           pass
+            '''Gist view
+            ---
+            responses:
+                200:
+                    schema:
+                        $ref: '#/definitions/Gist'
+            '''
+            pass
 
         def post(self):
-           pass
+            pass
 
-    method_view = GistApi.as_view('gists')
+
+    method_view = GistApi.as_view("gists")
     app.add_url_rule("/gists", view_func=method_view)
     with app.test_request_context():
         spec.path(view=method_view)
@@ -59,7 +64,7 @@ Passing a method view function::
     # Alternatively, pass in an app object as a kwarg
     # spec.path(view=method_view, app=app)
 
-    print(spec.to_dict()['paths'])
+    print(spec.to_dict()["paths"])
     # {'/gists': {'get': {'responses': {200: {'schema': {'$ref': '#/definitions/Gist'}}}},
     #             'post': {},
     #             'x-extension': 'metadata'}}

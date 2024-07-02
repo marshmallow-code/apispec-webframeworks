@@ -6,6 +6,7 @@ Takes the method from the route and docstring from the route handler.
     from apispec import APISpec
     from pprint import pprint
 
+
     async def hello(request):
         '''Get a greeting endpoint.
         ---
@@ -22,7 +23,7 @@ Takes the method from the route and docstring from the route handler.
 
 
     app = web.Application()
-    app.add_routes([web.get('/hello', hello)])
+    app.add_routes([web.get("/hello", hello)])
 
     # Add all aiohttp routes to the APISpec
     for route in app.router.routes():
@@ -34,8 +35,8 @@ Takes the method from the route and docstring from the route handler.
             route=route,
         )
 
-    pprint(spec.to_dict()['paths'])
-    #{'/hello': {'get': {'description': 'Get a greeting',
+    pprint(spec.to_dict()["paths"])
+    # {'/hello': {'get': {'description': 'Get a greeting',
     #                    'responses': {'200': {'content': {'text/plain': {'schema': {'$ref': '#/definitions/Greeting'}}},
     #                                          'description': 'A greeting to the '
     #                                                         'client'}}}}}
