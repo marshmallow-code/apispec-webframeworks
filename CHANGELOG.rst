@@ -1,6 +1,14 @@
 Changelog
 ---------
 
+1.2.0 (2024-09-16)
+++++++++++++++++++
+
+Features:
+
+* TornadoPlugin: Ensure consistent ordering for HTTP path keys
+  (:pr:`159`). Thanks :user:`bhperry` for the PR.
+
 1.1.0 (2024-03-18)
 ++++++++++++++++++
 
