@@ -180,3 +180,32 @@ class TestPathHelpers:
 
         spec.path(view=get_pet, app=app)
         assert "/pet/{pet_id}" in get_paths(spec)
+
+    def test_multiple_paths(self, app, spec):
+        @app.put("/user")
+        @app.route("/user/<user>")
+        def user(user = None):
+            """A greeting endpoint.
+
+            ---
+            get:
+                description: get user details
+                responses:
+                    200:
+                        description: a user to be returned
+            put:
+                description: create a user
+                responses:
+                    200:
+                        description: some data
+            """
+            pass
+
+        for rule in app.url_map.iter_rules():
+            spec.path(rule=rule)
+
+        paths = get_paths(spec)
+        get_op = paths["/user/{user}"]["get"]
+        put_op = paths["/user"]["put"]
+        assert get_op["description"] == "get user details"
+        assert put_op["description"] == "create a user"
