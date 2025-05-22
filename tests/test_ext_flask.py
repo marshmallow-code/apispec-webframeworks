@@ -184,7 +184,7 @@ class TestPathHelpers:
     def test_multiple_paths(self, app, spec):
         @app.put("/user")
         @app.route("/user/<user>")
-        def user(user = None):
+        def user(user=None):
             """A greeting endpoint.
 
             ---
