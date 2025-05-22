@@ -141,10 +141,10 @@ class FlaskPlugin(BasePlugin):
         **kwargs: Any,
     ) -> Optional[str]:
         """Path helper that allows passing a Flask view function."""
-        assert view is not None or rule is not None
         assert operations is not None
 
         if rule is None:
+            assert view is not None
             rule = self._rule_for_view(view, app=app)
         if view is None:
             view = self._view_for_rule(rule, app=app)
@@ -153,7 +153,7 @@ class FlaskPlugin(BasePlugin):
         doc_operations = {
             k: v
             for k, v in doc_operations.items()
-            if k.upper() in rule.methods or k.startswith("x-")
+            if rule.methods is None or k.upper() in rule.methods or k.startswith("x-")
         }
         operations.update(doc_operations)
         if hasattr(view, "view_class") and issubclass(view.view_class, MethodView):  # noqa: E501
