@@ -124,7 +124,7 @@ class TestPathHelpers:
         assert "delete" not in paths["/hi"]
 
     def test_integration_with_docstring_introspection(self, app, spec):
-        @app.route("/hello")
+        @app.route("/hello", methods=["GET", "POST"])
         def hello():
             """A greeting endpoint.
 
