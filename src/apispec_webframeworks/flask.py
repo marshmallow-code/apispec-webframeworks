@@ -150,6 +150,7 @@ class FlaskPlugin(BasePlugin):
             view = self._view_for_rule(rule, app=app)
         view_doc = view.__doc__ or ""
         doc_operations = yaml_utils.load_operations_from_docstring(view_doc)
+        doc_operations = {k: v for k, v in doc_operations.items() if k.upper() in rule.methods}
         operations.update(doc_operations)
         if hasattr(view, "view_class") and issubclass(view.view_class, MethodView):  # noqa: E501
             # method attribute is dynamically added, which is supported by mypy
