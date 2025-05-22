@@ -120,6 +120,15 @@ class FlaskPlugin(BasePlugin):
         rule = app.url_map._rules_by_endpoint[endpoint][0]
         return rule
 
+    @staticmethod
+    def _view_for_rule(
+        rule: Rule,
+        app: Optional[Flask] = None,
+    ) -> Union[Callable[..., Any], "RouteCallable"]:
+        if app is None:
+            app = current_app
+        return app.view_functions[rule.endpoint]
+
     def path_helper(
         self,
         path: Optional[str] = None,
@@ -127,16 +136,25 @@ class FlaskPlugin(BasePlugin):
         parameters: Optional[List[dict]] = None,
         *,
         view: Optional[Union[Callable[..., Any], "RouteCallable"]] = None,
+        rule: Optional[Rule] = None,
         app: Optional[Flask] = None,
         **kwargs: Any,
     ) -> Optional[str]:
         """Path helper that allows passing a Flask view function."""
-        assert view is not None
         assert operations is not None
 
-        rule = self._rule_for_view(view, app=app)
+        if rule is None:
+            assert view is not None
+            rule = self._rule_for_view(view, app=app)
+        if view is None:
+            view = self._view_for_rule(rule, app=app)
         view_doc = view.__doc__ or ""
         doc_operations = yaml_utils.load_operations_from_docstring(view_doc)
+        doc_operations = {
+            k: v
+            for k, v in doc_operations.items()
+            if rule.methods is None or k.upper() in rule.methods or k.startswith("x-")
+        }
         operations.update(doc_operations)
         if hasattr(view, "view_class") and issubclass(view.view_class, MethodView):  # noqa: E501
             # method attribute is dynamically added, which is supported by mypy
