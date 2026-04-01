@@ -2,7 +2,7 @@
 apispec-webframeworks
 *********************
 
-|pypi| |build-status| |marshmallow3|
+|pypi| |build-status|
 
 .. |pypi| image:: https://badgen.net/pypi/v/apispec-webframeworks
     :target: https://pypi.org/project/apispec-webframeworks/
@@ -11,10 +11,6 @@ apispec-webframeworks
 .. |build-status| image:: https://github.com/marshmallow-code/apispec-webframeworks/actions/workflows/build-release.yml/badge.svg
     :target: https://github.com/marshmallow-code/apispec-webframeworks/actions/workflows/build-release.yml
     :alt: Build status
-
-.. |marshmallow3| image:: https://badgen.net/badge/marshmallow/3?
-    :target: https://marshmallow.readthedocs.io/en/latest/upgrading.html
-    :alt: marshmallow 3 compatible
 
 `apispec <https://github.com/marshmallow-code/apispec>`_ plugins for
 integrating with various web frameworks.
