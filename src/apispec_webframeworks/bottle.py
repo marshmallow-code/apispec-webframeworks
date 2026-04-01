@@ -26,7 +26,8 @@ a view function to `path`.
 """  # noqa: E501
 
 import re
-from typing import Any, Callable, List, Optional
+from collections.abc import Callable
+from typing import Any
 
 from apispec import BasePlugin, yaml_utils
 from apispec.exceptions import APISpecError
@@ -58,13 +59,13 @@ class BottlePlugin(BasePlugin):
 
     def path_helper(
         self,
-        path: Optional[str] = None,
-        operations: Optional[dict] = None,
-        parameters: Optional[List[dict]] = None,
+        path: str | None = None,
+        operations: dict | None = None,
+        parameters: list[dict] | None = None,
         *,
-        view: Optional[Any] = None,
+        view: Any | None = None,
         **kwargs: Any,
-    ) -> Optional[str]:
+    ) -> str | None:
         """Path helper that allows passing a bottle view function."""
         assert operations is not None
         assert view is not None

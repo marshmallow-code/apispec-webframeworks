@@ -73,7 +73,8 @@ Passing a method view function::
 """  # noqa: E501
 
 import re
-from typing import TYPE_CHECKING, Any, Callable, List, Optional, Union
+from collections.abc import Callable
+from typing import TYPE_CHECKING, Any, Union
 
 from apispec import BasePlugin, yaml_utils
 from apispec.exceptions import APISpecError
@@ -103,7 +104,7 @@ class FlaskPlugin(BasePlugin):
     @staticmethod
     def _rule_for_view(
         view: Union[Callable[..., Any], "RouteCallable"],
-        app: Optional[Flask] = None,
+        app: Flask | None = None,
     ) -> Rule:
         if app is None:
             app = current_app
@@ -122,14 +123,14 @@ class FlaskPlugin(BasePlugin):
 
     def path_helper(
         self,
-        path: Optional[str] = None,
-        operations: Optional[dict] = None,
-        parameters: Optional[List[dict]] = None,
+        path: str | None = None,
+        operations: dict | None = None,
+        parameters: list[dict] | None = None,
         *,
-        view: Optional[Union[Callable[..., Any], "RouteCallable"]] = None,
-        app: Optional[Flask] = None,
+        view: Union[Callable[..., Any], "RouteCallable"] | None = None,
+        app: Flask | None = None,
         **kwargs: Any,
-    ) -> Optional[str]:
+    ) -> str | None:
         """Path helper that allows passing a Flask view function."""
         assert view is not None
         assert operations is not None

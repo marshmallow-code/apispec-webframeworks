@@ -1,6 +1,13 @@
 Changelog
 ---------
 
+unreleased
+++++++++++
+
+Other:
+
+* Support Python 3.10-3.14. Older versions are no longer supported.
+
 1.2.0 (2024-09-16)
 ++++++++++++++++++
 

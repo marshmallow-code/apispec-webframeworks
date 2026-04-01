@@ -32,7 +32,8 @@ object to `path`.
 """  # noqa: E501
 
 import inspect
-from typing import Any, Callable, Dict, Iterator, List, Optional, Union, cast
+from collections.abc import Callable, Iterator
+from typing import Any, cast
 
 from apispec import BasePlugin, yaml_utils
 from apispec.exceptions import APISpecError
@@ -46,7 +47,7 @@ class TornadoPlugin(BasePlugin):
     @staticmethod
     def _operations_from_methods(
         handler_class: RequestHandler,
-    ) -> Iterator[Dict[str, dict]]:
+    ) -> Iterator[dict[str, dict]]:
         """Generator of operations described in handler's http methods
 
         :param handler_class:
@@ -103,13 +104,13 @@ class TornadoPlugin(BasePlugin):
 
     def path_helper(
         self,
-        path: Optional[str] = None,
-        operations: Optional[dict] = None,
-        parameters: Optional[List[dict]] = None,
+        path: str | None = None,
+        operations: dict | None = None,
+        parameters: list[dict] | None = None,
         *,
-        urlspec: Optional[Union[URLSpec, tuple]] = None,
+        urlspec: URLSpec | tuple | None = None,
         **kwargs: Any,
-    ) -> Optional[str]:
+    ) -> str | None:
         """Path helper that allows passing a Tornado URLSpec or tuple."""
         assert operations is not None
         assert urlspec is not None
