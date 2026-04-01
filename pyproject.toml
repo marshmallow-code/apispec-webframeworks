@@ -3,20 +3,19 @@ name = "apispec-webframeworks"
 version = "1.2.0"
 description = "Web framework plugins for apispec."
 readme = "README.rst"
-license = { file = "LICENSE" }
-maintainers = [{ name = "Steven Loria", email = "sloria1@gmail.com" }]
+license = "MIT"
+maintainers = [{ name = "Steven Loria", email = "oss@stevenloria.com" }]
 classifiers = [
   "Intended Audience :: Developers",
-  "License :: OSI Approved :: MIT License",
   "Natural Language :: English",
   "Programming Language :: Python :: 3",
-  "Programming Language :: Python :: 3.8",
-  "Programming Language :: Python :: 3.9",
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
 ]
-requires-python = ">=3.8"
+requires-python = ">=3.10"
 dependencies = ["apispec[yaml]>=6.0.0"]
 
 [project.urls]
@@ -24,7 +23,7 @@ Funding = "https://opencollective.com/marshmallow"
 Issues = "https://github.com/marshmallow-code/apispec-webframeworks/issues"
 Source = "https://github.com/marshmallow-code/apispec-webframeworks"
 
-[project.optional-dependencies]
+[dependency-groups]
 tests = [
   "pytest",
   "Flask>=2.3.3",
@@ -32,7 +31,10 @@ tests = [
   "bottle>=0.12.25",
   "aiohttp>=3.9.3",
 ]
-dev = ["apispec-webframeworks[tests]", "tox", "pre-commit>=3.5,<5.0"]
+dev = [{ include-group = "tests" }, "tox", "tox-uv", "pre-commit>=3.5,<5.0"]
+
+[tool.uv]
+default-groups = ["dev"]
 
 [build-system]
 requires = ["flit_core<4"]
