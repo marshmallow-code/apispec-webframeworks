@@ -43,7 +43,7 @@ Takes the method from the route and docstring from the route handler.
 
 """  # noqa: E501
 
-from typing import Any, List, Optional
+from typing import Any
 
 from aiohttp.web import AbstractRoute
 from apispec import BasePlugin, yaml_utils
@@ -52,13 +52,13 @@ from apispec import BasePlugin, yaml_utils
 class AiohttpPlugin(BasePlugin):
     def path_helper(
         self,
-        path: Optional[str] = None,
-        operations: Optional[dict] = None,
-        parameters: Optional[List[dict]] = None,
+        path: str | None = None,
+        operations: dict | None = None,
+        parameters: list[dict] | None = None,
         *,
-        route: Optional[AbstractRoute] = None,
+        route: AbstractRoute | None = None,
         **kwargs: Any,
-    ) -> Optional[str]:
+    ) -> str | None:
         """Path helper that allows passing a aiohttp AbstractRoute"""
         assert operations is not None
         assert route is not None
