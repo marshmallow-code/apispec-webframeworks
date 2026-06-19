@@ -3,7 +3,7 @@ revision = 3
 requires-python = ">=3.10"
 
 [options]
-exclude-newer = "0001-01-01T00:00:00Z" # This has no effect and is included for backwards compatibility when using relative exclude-newer values.
+exclude-newer = "2026-06-12T15:24:02.684879336Z"
 exclude-newer-span = "P1W"
 
 [[package]]
@@ -201,6 +201,9 @@ dev = [
     { name = "tox" },
     { name = "tox-uv" },
 ]
+lint = [
+    { name = "pre-commit" },
+]
 tests = [
     { name = "aiohttp" },
     { name = "bottle" },
@@ -223,6 +226,7 @@ dev = [
     { name = "tox" },
     { name = "tox-uv" },
 ]
+lint = [{ name = "pre-commit", specifier = ">=3.5,<5.0" }]
 tests = [
     { name = "aiohttp", specifier = ">=3.9.3" },
     { name = "bottle", specifier = ">=0.12.25" },
