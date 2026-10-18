@@ -40,6 +40,9 @@ from apispec.exceptions import APISpecError
 from tornado.routing import PathMatches
 from tornado.web import RequestHandler, URLSpec
 
+# Tornado RequestHandler has not trace method
+PATH_KEYS = sorted(yaml_utils.PATH_KEYS - {"trace"})
+
 
 class TornadoPlugin(BasePlugin):
     """APISpec plugin for Tornado"""
@@ -53,7 +56,7 @@ class TornadoPlugin(BasePlugin):
         :param handler_class:
         :type handler_class: RequestHandler descendant
         """
-        for httpmethod in sorted(yaml_utils.PATH_KEYS):
+        for httpmethod in PATH_KEYS:
             method = getattr(handler_class, httpmethod)
             docstring = method.__doc__ or ""
             operation_data = yaml_utils.load_yaml_from_docstring(docstring)
