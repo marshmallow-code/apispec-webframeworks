@@ -99,3 +99,10 @@ class TestPathHelpers:
             "responses": {"200": {"description": "A greeting to the client"}},
         }
         assert paths["/hello"]["get"] == expected
+
+    def test_path_without_route(self, spec):
+        spec.path(
+            path="/hello",
+            operations={"get": {"responses": {"200": {}}}},
+        )
+        assert "/hello" in get_paths(spec)

@@ -154,3 +154,10 @@ class TestPathHelpers:
         path = "/helloworld"
         paths = get_paths(spec)
         assert path in paths
+
+    def test_path_without_urlspec(self, spec):
+        spec.path(
+            path="/hello",
+            operations={"get": {"responses": {"200": {}}}},
+        )
+        assert "/hello" in get_paths(spec)
