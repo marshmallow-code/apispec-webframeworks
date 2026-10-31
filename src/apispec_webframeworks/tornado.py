@@ -115,8 +115,9 @@ class TornadoPlugin(BasePlugin):
         **kwargs: Any,
     ) -> str | None:
         """Path helper that allows passing a Tornado URLSpec or tuple."""
+        if urlspec is None:
+            return None
         assert operations is not None
-        assert urlspec is not None
 
         if not isinstance(urlspec, URLSpec):
             urlspec = URLSpec(*urlspec)

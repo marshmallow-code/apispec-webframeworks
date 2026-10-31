@@ -67,8 +67,9 @@ class BottlePlugin(BasePlugin):
         **kwargs: Any,
     ) -> str | None:
         """Path helper that allows passing a bottle view function."""
+        if view is None:
+            return None
         assert operations is not None
-        assert view is not None
 
         docstring = view.__doc__ or ""
         operations.update(yaml_utils.load_operations_from_docstring(docstring))

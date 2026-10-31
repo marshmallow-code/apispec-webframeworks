@@ -180,3 +180,10 @@ class TestPathHelpers:
 
         spec.path(view=get_pet, app=app)
         assert "/pet/{pet_id}" in get_paths(spec)
+
+    def test_path_without_view(self, spec):
+        spec.path(
+            path="/hello",
+            operations={"get": {"responses": {"200": {}}}},
+        )
+        assert "/hello" in get_paths(spec)

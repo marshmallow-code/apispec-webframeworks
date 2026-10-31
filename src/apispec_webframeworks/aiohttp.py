@@ -60,8 +60,9 @@ class AiohttpPlugin(BasePlugin):
         **kwargs: Any,
     ) -> str | None:
         """Path helper that allows passing a aiohttp AbstractRoute"""
+        if route is None:
+            return None
         assert operations is not None
-        assert route is not None
 
         docstring = route.handler.__doc__ or ""
         operations.update(
