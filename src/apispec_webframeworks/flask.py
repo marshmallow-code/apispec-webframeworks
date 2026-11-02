@@ -132,7 +132,8 @@ class FlaskPlugin(BasePlugin):
         **kwargs: Any,
     ) -> str | None:
         """Path helper that allows passing a Flask view function."""
-        assert view is not None
+        if view is None:
+            return None
         assert operations is not None
 
         rule = self._rule_for_view(view, app=app)
